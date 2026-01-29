@@ -1,59 +1,125 @@
 /**
  * Agent data loader for AgentScore
- * Loads data from collected-agents.json and enhances with mock ratings
+ * Loads from Supabase with fallback to local JSON
  */
 
 // Cache for loaded agents
 let agentCache = null;
+let useSupabase = true;
 
 /**
- * Load agent data from JSON file
- * In production, this would be an API call
+ * Load agent data - tries Supabase first, falls back to JSON
  */
 async function loadAgentData() {
     if (agentCache) {
         return agentCache;
     }
 
+    // Try Supabase first
+    if (useSupabase && window.AgentScore) {
+        try {
+            console.log('📡 Loading agents from Supabase...');
+            const { data, error } = await window.AgentScore.db.getAgents({ limit: 500 });
+            
+            if (!error && data && data.length > 0) {
+                console.log(`✅ Loaded ${data.length} agents from Supabase`);
+                agentCache = data.map(agent => transformSupabaseAgent(agent));
+                return agentCache;
+            }
+            console.log('⚠️ Supabase returned no data, falling back to JSON');
+        } catch (err) {
+            console.log('⚠️ Supabase error, falling back to JSON:', err.message);
+        }
+    }
+
+    // Fallback to local JSON
     try {
-        const response = await fetch('../collected-agents.json');
+        console.log('📁 Loading agents from local JSON...');
+        const response = await fetch('../all-agents-with-reviews.json');
         const rawAgents = await response.json();
-        
-        // Enhance agents with mock ratings and review counts
         agentCache = rawAgents.map(agent => enhanceAgent(agent));
-        
+        console.log(`✅ Loaded ${agentCache.length} agents from JSON`);
         return agentCache;
     } catch (error) {
         console.error('Error loading agent data:', error);
-        // Return fallback data if fetch fails
         return getFallbackData();
     }
 }
 
 /**
- * Enhance raw agent data with ratings and additional info
+ * Load a single agent by ID (Supabase) or name (fallback)
+ */
+async function loadAgentById(id) {
+    // Try Supabase first (id is UUID)
+    if (useSupabase && window.AgentScore) {
+        try {
+            const { data, error } = await window.AgentScore.db.getAgent(id);
+            if (!error && data) {
+                return transformSupabaseAgent(data);
+            }
+        } catch (err) {
+            console.log('Agent not found in Supabase, trying by name...');
+        }
+    }
+    
+    // Fallback: load all and find by name
+    const agents = await loadAgentData();
+    return agents.find(a => a.name === id || a.id === id);
+}
+
+/**
+ * Transform Supabase agent to frontend format
+ */
+function transformSupabaseAgent(agent) {
+    return {
+        id: agent.id,
+        name: agent.name,
+        location: agent.location,
+        url: agent.bazaraki_url || agent.website || '#',
+        website: agent.website,
+        ads: agent.listing_count || 0,
+        rating: agent.google_rating || generateRating(agent.name),
+        reviewCount: agent.google_reviews_count || 0,
+        email: agent.email,
+        phone: agent.phone,
+        logoUrl: agent.logo_url,
+        sampleReview: agent.sample_review,
+        services: generateServices(hashString(agent.name)),
+        tags: generateTags(hashString(agent.name), agent.location)
+    };
+}
+
+/**
+ * Enhance raw JSON agent data with ratings
  */
 function enhanceAgent(agent) {
-    // Generate consistent rating based on name (so it's repeatable)
     const nameHash = hashString(agent.name);
-    const baseRating = 3.5 + (nameHash % 15) / 10; // 3.5 to 5.0
-    const rating = Math.round(baseRating * 10) / 10;
-    
-    // Generate review count based on ads count and rating
-    const reviewBase = Math.min(agent.ads, 200);
-    const reviewCount = Math.floor(reviewBase * (0.3 + (rating - 3.5) * 0.2));
+    const rating = agent.google_rating || (3.5 + (nameHash % 15) / 10);
+    const reviewCount = agent.google_review_count || Math.max(Math.floor(Math.min(agent.ads, 200) * 0.3), 3);
     
     return {
-        ...agent,
-        rating: rating,
-        reviewCount: Math.max(reviewCount, 3), // At least 3 reviews
+        name: agent.name,
+        location: agent.location,
+        url: agent.url,
+        ads: agent.ads || 0,
+        rating: Math.round(rating * 10) / 10,
+        reviewCount: reviewCount,
+        sampleReview: agent.google_reviews?.[0] || null,
         services: generateServices(nameHash),
         tags: generateTags(nameHash, agent.location)
     };
 }
 
 /**
- * Generate a simple hash from a string
+ * Generate rating from name hash (for agents without Google rating)
+ */
+function generateRating(name) {
+    const hash = hashString(name);
+    return Math.round((3.5 + (hash % 15) / 10) * 10) / 10;
+}
+
+/**
+ * Generate a hash from string
  */
 function hashString(str) {
     let hash = 0;
@@ -69,14 +135,11 @@ function hashString(str) {
  * Generate services based on hash
  */
 function generateServices(hash) {
-    const allServices = ['Sales', 'Rentals', 'Commercial', 'Property Management', 'Investment'];
-    const services = ['Sales']; // Always include Sales
-    
+    const services = ['Sales'];
     if (hash % 2 === 0) services.push('Rentals');
     if (hash % 3 === 0) services.push('Commercial');
     if (hash % 5 === 0) services.push('Property Management');
     if (hash % 7 === 0) services.push('Investment');
-    
     return services;
 }
 
@@ -85,18 +148,16 @@ function generateServices(hash) {
  */
 function generateTags(hash, location) {
     const tags = [];
-    
     if (hash % 3 === 0) tags.push('Expat Friendly');
     if (hash % 4 === 0) tags.push('Luxury Properties');
     if (hash % 5 === 0) tags.push('New Builds');
     if (location === 'Limassol' && hash % 2 === 0) tags.push('Beachfront');
     if (location === 'Paphos' && hash % 3 === 0) tags.push('Retirement Specialist');
-    
     return tags;
 }
 
 /**
- * Fallback data if JSON fails to load
+ * Fallback data if all loading fails
  */
 function getFallbackData() {
     return [
@@ -156,18 +217,13 @@ function getCityStats() {
     const stats = {};
     agentCache.forEach(agent => {
         if (!stats[agent.location]) {
-            stats[agent.location] = {
-                count: 0,
-                totalRating: 0,
-                totalReviews: 0
-            };
+            stats[agent.location] = { count: 0, totalRating: 0, totalReviews: 0 };
         }
         stats[agent.location].count++;
         stats[agent.location].totalRating += agent.rating;
         stats[agent.location].totalReviews += agent.reviewCount;
     });
     
-    // Calculate averages
     Object.keys(stats).forEach(city => {
         stats[city].avgRating = (stats[city].totalRating / stats[city].count).toFixed(1);
     });
