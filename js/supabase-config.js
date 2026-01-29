@@ -89,10 +89,7 @@ const db = {
   async getReviews(agentId) {
     const { data, error } = await supabase
       .from('reviews')
-      .select(`
-        *,
-        user:auth.users(email)
-      `)
+      .select('*')
       .eq('agent_id', agentId)
       .order('created_at', { ascending: false });
     return { data, error };

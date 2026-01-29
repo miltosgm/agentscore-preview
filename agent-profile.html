@@ -426,7 +426,7 @@
                     if (!error && data && data.length > 0) {
                         agentReviews = data.map(r => ({
                             id: r.id,
-                            reviewer: r.user?.email?.split('@')[0] || 'User',
+                            reviewer: r.reviewer_name || 'AgentScore User',
                             rating: r.rating,
                             date: r.created_at,
                             title: r.title,
