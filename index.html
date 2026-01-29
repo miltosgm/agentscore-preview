@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgentScore - Find Trusted Real Estate Agents in Cyprus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#1e40af',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <span class="text-2xl font-bold text-primary">Agent</span>
+                        <span class="text-2xl font-bold text-gray-800">Score</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="agents.html" class="text-gray-600 hover:text-primary transition">Browse Agents</a>
+                    <a href="#cities" class="text-gray-600 hover:text-primary transition">Cities</a>
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-secondary transition">
+                        Write Review
+                    </button>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-4 py-3 space-y-2">
+                <a href="agents.html" class="block text-gray-600 hover:text-primary">Browse Agents</a>
+                <a href="#cities" class="block text-gray-600 hover:text-primary">Cities</a>
+                <button class="w-full bg-primary text-white px-4 py-2 rounded-lg">Write Review</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20 lg:py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                Find Trusted Real Estate<br>Agents in Cyprus
+            </h1>
+            <p class="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
+                Read verified reviews from real customers. Compare agencies by ratings and find the perfect agent for your property needs.
+            </p>
+            
+            <!-- Search Box -->
+            <div class="max-w-2xl mx-auto">
+                <div class="bg-white rounded-xl p-2 shadow-2xl flex flex-col sm:flex-row gap-2">
+                    <input 
+                        type="text" 
+                        id="hero-search"
+                        placeholder="Search by agency name or location..." 
+                        class="flex-1 px-4 py-3 text-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    >
+                    <button 
+                        onclick="performSearch()"
+                        class="bg-primary text-white px-8 py-3 rounded-lg hover:bg-secondary transition font-medium"
+                    >
+                        Search
+                    </button>
+                </div>
+            </div>
+
+            <!-- City Quick Links -->
+            <div id="cities" class="mt-8 flex flex-wrap justify-center gap-3">
+                <a href="agents.html?city=Limassol" class="bg-white/20 hover:bg-white/30 px-5 py-2 rounded-full transition flex items-center gap-2">
+                    <span>📍</span> Limassol
+                </a>
+                <a href="agents.html?city=Nicosia" class="bg-white/20 hover:bg-white/30 px-5 py-2 rounded-full transition flex items-center gap-2">
+                    <span>📍</span> Nicosia
+                </a>
+                <a href="agents.html?city=Paphos" class="bg-white/20 hover:bg-white/30 px-5 py-2 rounded-full transition flex items-center gap-2">
+                    <span>📍</span> Paphos
+                </a>
+                <a href="agents.html?city=Larnaca" class="bg-white/20 hover:bg-white/30 px-5 py-2 rounded-full transition flex items-center gap-2">
+                    <span>📍</span> Larnaca
+                </a>
+                <a href="agents.html?city=Famagusta" class="bg-white/20 hover:bg-white/30 px-5 py-2 rounded-full transition flex items-center gap-2">
+                    <span>📍</span> Famagusta
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <section class="bg-white py-8 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div id="stat-agencies" class="text-3xl font-bold text-primary">0</div>
+                    <div class="text-gray-500">Agencies Listed</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-primary">5</div>
+                    <div class="text-gray-500">Cities Covered</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-primary">4.2</div>
+                    <div class="text-gray-500">Average Rating</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold text-primary">Free</div>
+                    <div class="text-gray-500">To Use</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Agents Section -->
+    <section class="py-16 lg:py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Top Rated Agencies</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Discover the most trusted real estate agencies in Cyprus based on listings and customer activity.
+                </p>
+            </div>
+
+            <div id="featured-agents" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Agents will be loaded here by JS -->
+                <div class="animate-pulse bg-white rounded-xl p-6 shadow-sm">
+                    <div class="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+                    <div class="h-3 bg-gray-200 rounded w-1/2"></div>
+                </div>
+                <div class="animate-pulse bg-white rounded-xl p-6 shadow-sm">
+                    <div class="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+                    <div class="h-3 bg-gray-200 rounded w-1/2"></div>
+                </div>
+                <div class="animate-pulse bg-white rounded-xl p-6 shadow-sm">
+                    <div class="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+                    <div class="h-3 bg-gray-200 rounded w-1/2"></div>
+                </div>
+            </div>
+
+            <div class="text-center mt-10">
+                <a href="agents.html" class="inline-flex items-center gap-2 bg-primary text-white px-8 py-3 rounded-lg hover:bg-secondary transition font-medium">
+                    View All Agencies
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cities Section -->
+    <section class="bg-white py-16 lg:py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Browse by City</h2>
+                <p class="text-gray-600">Find real estate agents in major Cyprus cities</p>
+            </div>
+
+            <div id="city-cards" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- City cards will be loaded by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="gradient-bg py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold text-white mb-4">Are you a Real Estate Agency?</h2>
+            <p class="text-blue-100 mb-8 max-w-2xl mx-auto">
+                Claim your profile on AgentScore to respond to reviews, update your information, and showcase your reputation.
+            </p>
+            <button class="bg-white text-primary px-8 py-3 rounded-lg hover:bg-gray-100 transition font-medium">
+                Claim Your Profile →
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <span class="text-xl font-bold text-white">Agent</span>
+                        <span class="text-xl font-bold text-primary">Score</span>
+                    </div>
+                    <p class="text-sm">
+                        The trusted platform for finding and reviewing real estate agents in Cyprus.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-medium mb-4">Cities</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="agents.html?city=Limassol" class="hover:text-white transition">Limassol</a></li>
+                        <li><a href="agents.html?city=Nicosia" class="hover:text-white transition">Nicosia</a></li>
+                        <li><a href="agents.html?city=Paphos" class="hover:text-white transition">Paphos</a></li>
+                        <li><a href="agents.html?city=Larnaca" class="hover:text-white transition">Larnaca</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-medium mb-4">Company</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contact</a></li>
+                        <li><a href="#" class="hover:text-white transition">For Agencies</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-medium mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
+                © 2025 AgentScore. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Hero search
+        function performSearch() {
+            const query = document.getElementById('hero-search').value;
+            if (query) {
+                window.location.href = `agents.html?search=${encodeURIComponent(query)}`;
+            } else {
+                window.location.href = 'agents.html';
+            }
+        }
+
+        // Enter key search
+        document.getElementById('hero-search').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') performSearch();
+        });
+
+        // Initialize homepage
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAgentData().then(agents => {
+                // Update stats
+                document.getElementById('stat-agencies').textContent = agents.length + '+';
+                
+                // Load featured agents (top 6 by listing count)
+                const featured = [...agents]
+                    .sort((a, b) => b.ads - a.ads)
+                    .slice(0, 6);
+                renderFeaturedAgents(featured);
+
+                // Load city cards
+                renderCityCards(agents);
+            });
+        });
+
+        function renderFeaturedAgents(agents) {
+            const container = document.getElementById('featured-agents');
+            container.innerHTML = agents.map(agent => `
+                <a href="agent-profile.html?id=${encodeURIComponent(agent.name)}" 
+                   class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition group">
+                    <div class="flex items-start gap-4">
+                        <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center text-primary font-bold text-xl flex-shrink-0">
+                            ${agent.name.charAt(0).toUpperCase()}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-semibold text-gray-800 group-hover:text-primary transition truncate">
+                                ${agent.name}
+                            </h3>
+                            <p class="text-gray-500 text-sm flex items-center gap-1 mt-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                ${agent.location}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center justify-between">
+                        <div class="flex items-center gap-1">
+                            ${renderStars(agent.rating)}
+                            <span class="text-gray-600 ml-1">${agent.rating.toFixed(1)}</span>
+                        </div>
+                        <span class="text-sm text-gray-500">${agent.ads} listings</span>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        function renderCityCards(agents) {
+            const cities = ['Limassol', 'Nicosia', 'Paphos', 'Larnaca'];
+            const cityIcons = {
+                'Limassol': '🏖️',
+                'Nicosia': '🏛️',
+                'Paphos': '🏺',
+                'Larnaca': '✈️'
+            };
+            
+            const container = document.getElementById('city-cards');
+            container.innerHTML = cities.map(city => {
+                const count = agents.filter(a => a.location === city).length;
+                return `
+                    <a href="agents.html?city=${city}" 
+                       class="bg-gray-50 hover:bg-gray-100 rounded-xl p-6 text-center transition group">
+                        <div class="text-4xl mb-3">${cityIcons[city]}</div>
+                        <h3 class="font-semibold text-gray-800 text-lg group-hover:text-primary transition">${city}</h3>
+                        <p class="text-gray-500 text-sm mt-1">${count} agencies</p>
+                    </a>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+</html>
