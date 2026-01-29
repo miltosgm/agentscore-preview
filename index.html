@@ -27,7 +27,12 @@
         .gradient-bg {
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
         }
+        .modal-overlay {
+            background: rgba(0,0,0,0.5);
+        }
     </style>
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="font-sans bg-gray-50">
     <!-- Navigation -->
@@ -43,8 +48,8 @@
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="agents.html" class="text-gray-600 hover:text-primary transition">Browse Agents</a>
                     <a href="#cities" class="text-gray-600 hover:text-primary transition">Cities</a>
-                    <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-secondary transition">
-                        Write Review
+                    <button id="auth-btn" onclick="showAuthModal()" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-secondary transition">
+                        Sign In
                     </button>
                 </div>
                 <div class="md:hidden flex items-center">
@@ -341,6 +346,156 @@
                     </a>
                 `;
             }).join('');
+        }
+    </script>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="fixed inset-0 modal-overlay hidden items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Sign In</h2>
+                <button onclick="hideAuthModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <p class="text-gray-600 mb-6">Sign in to leave reviews and rate real estate agents in Cyprus.</p>
+            
+            <form id="auth-form" onsubmit="handleAuth(event)">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-2">Email</label>
+                    <input type="email" id="auth-email" required 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                           placeholder="you@example.com">
+                </div>
+                <div id="password-field" class="mb-6">
+                    <label class="block text-gray-700 text-sm font-medium mb-2">Password</label>
+                    <input type="password" id="auth-password"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                           placeholder="••••••••">
+                </div>
+                <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg hover:bg-secondary transition font-medium">
+                    Sign In
+                </button>
+            </form>
+            
+            <div class="mt-4 text-center">
+                <button onclick="sendMagicLink()" class="text-primary hover:underline text-sm">
+                    Or sign in with Magic Link (no password)
+                </button>
+            </div>
+            
+            <div class="mt-6 text-center text-sm text-gray-500">
+                Don't have an account? 
+                <button onclick="toggleAuthMode()" class="text-primary hover:underline font-medium">Sign Up</button>
+            </div>
+            
+            <div id="auth-message" class="mt-4 text-center text-sm hidden"></div>
+        </div>
+    </div>
+
+    <!-- Supabase Config -->
+    <script src="js/supabase-config.js"></script>
+    <script>
+        let authMode = 'signin'; // or 'signup'
+        
+        function showAuthModal() {
+            document.getElementById('auth-modal').classList.remove('hidden');
+            document.getElementById('auth-modal').classList.add('flex');
+        }
+        
+        function hideAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+            document.getElementById('auth-modal').classList.remove('flex');
+        }
+        
+        function toggleAuthMode() {
+            authMode = authMode === 'signin' ? 'signup' : 'signin';
+            document.querySelector('#auth-modal h2').textContent = authMode === 'signin' ? 'Sign In' : 'Sign Up';
+            document.querySelector('#auth-form button[type="submit"]').textContent = authMode === 'signin' ? 'Sign In' : 'Create Account';
+        }
+        
+        async function handleAuth(e) {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+            const msgEl = document.getElementById('auth-message');
+            
+            msgEl.classList.remove('hidden', 'text-red-500', 'text-green-500');
+            
+            try {
+                let result;
+                if (authMode === 'signup') {
+                    result = await AgentScore.auth.signUp(email, password);
+                    if (!result.error) {
+                        msgEl.textContent = 'Check your email to confirm your account!';
+                        msgEl.classList.add('text-green-500');
+                        return;
+                    }
+                } else {
+                    result = await AgentScore.auth.signIn(email, password);
+                }
+                
+                if (result.error) {
+                    msgEl.textContent = result.error.message;
+                    msgEl.classList.add('text-red-500');
+                } else {
+                    hideAuthModal();
+                    updateAuthUI();
+                }
+            } catch (err) {
+                msgEl.textContent = 'An error occurred. Please try again.';
+                msgEl.classList.add('text-red-500');
+            }
+        }
+        
+        async function sendMagicLink() {
+            const email = document.getElementById('auth-email').value;
+            if (!email) {
+                alert('Please enter your email first');
+                return;
+            }
+            
+            const msgEl = document.getElementById('auth-message');
+            msgEl.classList.remove('hidden', 'text-red-500', 'text-green-500');
+            
+            const { error } = await AgentScore.auth.signInWithMagicLink(email);
+            if (error) {
+                msgEl.textContent = error.message;
+                msgEl.classList.add('text-red-500');
+            } else {
+                msgEl.textContent = 'Magic link sent! Check your email.';
+                msgEl.classList.add('text-green-500');
+            }
+        }
+        
+        async function updateAuthUI() {
+            const user = await AgentScore.auth.getUser();
+            const btn = document.getElementById('auth-btn');
+            
+            if (user) {
+                btn.textContent = user.email.split('@')[0];
+                btn.onclick = async () => {
+                    if (confirm('Sign out?')) {
+                        await AgentScore.auth.signOut();
+                        updateAuthUI();
+                    }
+                };
+            } else {
+                btn.textContent = 'Sign In';
+                btn.onclick = showAuthModal;
+            }
+        }
+        
+        // Check auth on load
+        document.addEventListener('DOMContentLoaded', updateAuthUI);
+        
+        // Listen for auth changes
+        if (window.AgentScore) {
+            AgentScore.auth.onAuthStateChange((event, session) => {
+                updateAuthUI();
+            });
         }
     </script>
 </body>
