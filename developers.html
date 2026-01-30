@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Browse Agents - AgentScore</title>
+    <title>Property Developers - AgentScore</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,8 +37,8 @@
                     </a>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="agents.html" class="text-primary font-medium">Agents</a>
-                    <a href="developers.html" class="text-gray-600 hover:text-primary transition">Developers</a>
+                    <a href="agents.html" class="text-gray-600 hover:text-primary transition">Agents</a>
+                    <a href="developers.html" class="text-primary font-medium">Developers</a>
                     <a href="index.html#cities" class="text-gray-600 hover:text-primary transition">Cities</a>
                     <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-secondary transition">
                         Write Review
@@ -49,10 +49,13 @@
     </nav>
 
     <!-- Page Header -->
-    <header class="bg-white border-b">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <h1 id="page-title" class="text-3xl font-bold text-gray-800">Real Estate Agents in Cyprus</h1>
-            <p id="page-subtitle" class="text-gray-600 mt-2">Browse and compare trusted agencies</p>
+    <header class="bg-gradient-to-r from-primary to-secondary text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="bg-white/20 px-3 py-1 rounded-full text-sm">New</span>
+            </div>
+            <h1 id="page-title" class="text-3xl font-bold">Property Developers in Cyprus</h1>
+            <p id="page-subtitle" class="mt-2 text-white/80">Compare top developers building homes across Cyprus</p>
         </div>
     </header>
 
@@ -70,21 +73,20 @@
                         <input 
                             type="text" 
                             id="search-input"
-                            placeholder="Agency name..."
+                            placeholder="Developer name..."
                             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
                         >
                     </div>
 
                     <!-- City Filter -->
                     <div class="mb-6">
-                        <label class="block text-sm text-gray-600 mb-2">City</label>
+                        <label class="block text-sm text-gray-600 mb-2">Location</label>
                         <select id="city-filter" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50">
-                            <option value="">All Cities</option>
+                            <option value="">All Locations</option>
                             <option value="Limassol">Limassol</option>
                             <option value="Nicosia">Nicosia</option>
                             <option value="Paphos">Paphos</option>
                             <option value="Larnaca">Larnaca</option>
-                            <option value="Famagusta">Famagusta</option>
                         </select>
                     </div>
 
@@ -104,7 +106,7 @@
                         <label class="block text-sm text-gray-600 mb-2">Sort By</label>
                         <select id="sort-select" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50">
                             <option value="rating">Highest Rated</option>
-                            <option value="listings">Most Listings</option>
+                            <option value="projects">Most Projects</option>
                             <option value="name">Name (A-Z)</option>
                         </select>
                     </div>
@@ -115,11 +117,11 @@
                 </div>
             </aside>
 
-            <!-- Agent List -->
+            <!-- Developer List -->
             <div class="flex-1">
                 <!-- Results Header -->
                 <div class="flex items-center justify-between mb-6">
-                    <p id="results-count" class="text-gray-600">Loading agents...</p>
+                    <p id="results-count" class="text-gray-600">Loading developers...</p>
                     <div class="flex gap-2">
                         <button id="view-grid" onclick="setView('grid')" class="p-2 rounded-lg bg-primary text-white">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -134,8 +136,8 @@
                     </div>
                 </div>
 
-                <!-- Agent Cards -->
-                <div id="agent-list" class="grid md:grid-cols-2 gap-4">
+                <!-- Developer Cards -->
+                <div id="developer-list" class="grid md:grid-cols-2 gap-4">
                     <!-- Loading skeleton -->
                     <div class="animate-pulse bg-white rounded-xl p-6 shadow-sm">
                         <div class="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
@@ -163,31 +165,59 @@
     </footer>
 
     <script src="js/supabase-config.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/app.js"></script>
     <script>
-        let allAgents = [];
-        let filteredAgents = [];
+        // Developer data with Google ratings
+        const developerData = [
+            { name: "Pafilia Property Developers", slug: "pafilia", location: "Paphos", rating: 4.7, projects: 250, description: "Largest privately-owned residential developer in Cyprus" },
+            { name: "Quality Group", slug: "quality-group", location: "Limassol", rating: 4.4, projects: 225, description: "One of the largest developers since 1991" },
+            { name: "Giovani Homes", slug: "giovani-homes", location: "Limassol", rating: 4.3, projects: 110, description: "First ISO certified developer in Cyprus" },
+            { name: "Aristo Developers", slug: "aristo-developers", location: "Paphos", rating: 4.4, projects: 265, description: "40+ years experience in golf resorts & developments" },
+            { name: "Limassol Greens", slug: "limassol-greens", location: "Limassol", rating: 5.0, projects: 728, description: "Resort complex with golf courses and luxury properties" },
+            { name: "Ajami Group", slug: "ajami-group", location: "Limassol", rating: 4.7, projects: 340, description: "30+ years in Cyprus real estate" },
+            { name: "Cyprus Developers Alliance", slug: "cyprus-developers-alliance", location: "Limassol", rating: 5.0, projects: 9000, description: "Alliance of 43 developers" },
+            { name: "Olias Homes", slug: "olias-homes", location: "Limassol", rating: 4.7, projects: 55, description: "Class A construction license since 2002" },
+            { name: "P.L. Property Gallery", slug: "property-gallery", location: "Limassol", rating: 3.9, projects: 50, description: "49 international awards" },
+            { name: "Korantina Homes", slug: "korantina-homes", location: "Paphos", rating: 4.7, projects: 20, description: "Luxury residential & 5-star hotels" },
+            { name: "Imperio Properties", slug: "imperio", location: "Limassol", rating: 4.4, projects: 50, description: "Best Residential Apartment Cyprus 2009" },
+            { name: "Prime Property Group (bbf)", slug: "prime-property-bbf", location: "Limassol", rating: 5.0, projects: 150, description: "Operations in Cyprus, Greece, Portugal, Canada" },
+            { name: "DTA Group", slug: "dta-group", location: "Limassol", rating: 5.0, projects: 13, description: "Luxury real estate and renewable energy" },
+            { name: "Cyfield Group", slug: "cyfield-group", location: "Nicosia", rating: 3.8, projects: 400, description: "Founded 1990, expanded to Greece & Middle East" },
+            { name: "Leptos Estates", slug: "leptos-estates", location: "Paphos", rating: 4.2, projects: 400, description: "Leading developer since 1960" },
+            { name: "D. Zavos Group", slug: "zavos-group", location: "Limassol", rating: 4.3, projects: 130, description: "Multiple European Property Awards" },
+            { name: "Cybarco Development", slug: "cybarco", location: "Nicosia", rating: 5.0, projects: 13, description: "Premium residential & commercial" },
+            { name: "Domenica Group", slug: "domenica-group", location: "Paphos", rating: 4.8, projects: 32, description: "Residential developer in Paphos" },
+            { name: "Lanitis Development", slug: "lanitis-development", location: "Limassol", rating: 4.5, projects: 40, description: "Part of Lanitis Group" },
+            { name: "Island Blue", slug: "island-blue", location: "Paphos", rating: 4.2, projects: 25, description: "Boutique developer" },
+            { name: "Karma Group", slug: "karma-group", location: "Limassol", rating: 4.3, projects: 30, description: "Modern developments" },
+            { name: "Aphrodite Hills Resort", slug: "aphrodite-hills", location: "Paphos", rating: 4.6, projects: 15, description: "Integrated resort community" },
+            { name: "DNP Property Group", slug: "dnp-property", location: "Limassol", rating: 4.4, projects: 20, description: "Quality developments" },
+            { name: "AN.C Constructions", slug: "anc-constructions", location: "Limassol", rating: 4.1, projects: 24, description: "35 years in development" },
+        ];
+
+        let allDevelopers = developerData;
+        let filteredDevelopers = [];
         let currentPage = 1;
         let currentView = 'grid';
         const perPage = 12;
 
-        document.addEventListener('DOMContentLoaded', async function() {
-            allAgents = await loadAgentData();
-            
-            // Get URL params
-            const params = new URLSearchParams(window.location.search);
-            const cityParam = params.get('city');
-            const searchParam = params.get('search');
-
-            if (cityParam) {
-                document.getElementById('city-filter').value = cityParam;
-                document.getElementById('page-title').textContent = `Real Estate Agents in ${cityParam}`;
+        function renderStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalf = rating % 1 >= 0.5;
+            let html = '';
+            for (let i = 0; i < fullStars; i++) {
+                html += '<svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>';
             }
-            if (searchParam) {
-                document.getElementById('search-input').value = searchParam;
+            if (hasHalf) {
+                html += '<svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" fill-opacity="0.5"/></svg>';
             }
+            const empty = 5 - Math.ceil(rating);
+            for (let i = 0; i < empty; i++) {
+                html += '<svg class="w-4 h-4 text-gray-300 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>';
+            }
+            return html;
+        }
 
+        document.addEventListener('DOMContentLoaded', function() {
             // Add event listeners
             document.getElementById('search-input').addEventListener('input', debounce(applyFilters, 300));
             document.getElementById('city-filter').addEventListener('change', applyFilters);
@@ -203,87 +233,86 @@
             const minRating = parseFloat(document.getElementById('rating-filter').value);
             const sortBy = document.getElementById('sort-select').value;
 
-            filteredAgents = allAgents.filter(agent => {
-                const matchesSearch = !search || agent.name.toLowerCase().includes(search);
-                const matchesCity = !city || agent.location === city;
-                const matchesRating = agent.rating >= minRating;
+            filteredDevelopers = allDevelopers.filter(dev => {
+                const matchesSearch = !search || dev.name.toLowerCase().includes(search);
+                const matchesCity = !city || dev.location === city;
+                const matchesRating = dev.rating >= minRating;
                 return matchesSearch && matchesCity && matchesRating;
             });
 
             // Sort
-            filteredAgents.sort((a, b) => {
+            filteredDevelopers.sort((a, b) => {
                 if (sortBy === 'rating') return b.rating - a.rating;
-                if (sortBy === 'listings') return b.ads - a.ads;
+                if (sortBy === 'projects') return b.projects - a.projects;
                 if (sortBy === 'name') return a.name.localeCompare(b.name);
                 return 0;
             });
 
             currentPage = 1;
-            renderAgents();
+            renderDevelopers();
         }
 
-        function renderAgents() {
-            const container = document.getElementById('agent-list');
+        function renderDevelopers() {
+            const container = document.getElementById('developer-list');
             const start = (currentPage - 1) * perPage;
             const end = start + perPage;
-            const pageAgents = filteredAgents.slice(start, end);
+            const pageDevelopers = filteredDevelopers.slice(start, end);
 
             document.getElementById('results-count').textContent = 
-                `Showing ${start + 1}-${Math.min(end, filteredAgents.length)} of ${filteredAgents.length} agencies`;
+                `Showing ${start + 1}-${Math.min(end, filteredDevelopers.length)} of ${filteredDevelopers.length} developers`;
 
             if (currentView === 'grid') {
                 container.className = 'grid md:grid-cols-2 gap-4';
-                container.innerHTML = pageAgents.map(agent => `
-                    <a href="agent-profile.html?id=${encodeURIComponent(agent.name)}" 
-                       class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition group">
+                container.innerHTML = pageDevelopers.map(dev => `
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition group cursor-pointer">
                         <div class="flex items-start gap-4">
-                            <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center text-primary font-bold text-xl flex-shrink-0">
-                                ${agent.name.charAt(0).toUpperCase()}
+                            <div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+                                ${dev.name.charAt(0).toUpperCase()}
                             </div>
                             <div class="flex-1 min-w-0">
                                 <h3 class="font-semibold text-gray-800 group-hover:text-primary transition truncate">
-                                    ${agent.name}
+                                    ${dev.name}
                                 </h3>
                                 <p class="text-gray-500 text-sm flex items-center gap-1 mt-1">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     </svg>
-                                    ${agent.location}
+                                    ${dev.location}
                                 </p>
                             </div>
                         </div>
+                        <p class="text-gray-500 text-sm mt-3 line-clamp-2">${dev.description}</p>
                         <div class="mt-4 flex items-center justify-between">
                             <div class="flex items-center gap-1">
-                                ${renderStars(agent.rating)}
-                                <span class="text-gray-600 ml-1">${agent.rating.toFixed(1)}</span>
+                                ${renderStars(dev.rating)}
+                                <span class="text-gray-600 ml-1">${dev.rating.toFixed(1)}</span>
                             </div>
-                            <span class="text-sm text-gray-500">${agent.ads} listings</span>
+                            <span class="text-sm text-gray-500">${dev.projects}+ projects</span>
                         </div>
-                    </a>
+                    </div>
                 `).join('');
             } else {
                 container.className = 'flex flex-col gap-3';
-                container.innerHTML = pageAgents.map(agent => `
-                    <a href="agent-profile.html?id=${encodeURIComponent(agent.name)}" 
-                       class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition flex items-center gap-4 group">
-                        <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary font-bold text-lg flex-shrink-0">
-                            ${agent.name.charAt(0).toUpperCase()}
+                container.innerHTML = pageDevelopers.map(dev => `
+                    <div class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition flex items-center gap-4 group cursor-pointer">
+                        <div class="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                            ${dev.name.charAt(0).toUpperCase()}
                         </div>
                         <div class="flex-1 min-w-0">
                             <h3 class="font-semibold text-gray-800 group-hover:text-primary transition truncate">
-                                ${agent.name}
+                                ${dev.name}
                             </h3>
-                            <p class="text-gray-500 text-sm">${agent.location}</p>
+                            <p class="text-gray-500 text-sm">${dev.location} • ${dev.description}</p>
                         </div>
                         <div class="flex items-center gap-4 text-sm">
                             <div class="flex items-center gap-1">
-                                ${renderStars(agent.rating)}
-                                <span class="text-gray-600">${agent.rating.toFixed(1)}</span>
+                                ${renderStars(dev.rating)}
+                                <span class="text-gray-600">${dev.rating.toFixed(1)}</span>
                             </div>
-                            <span class="text-gray-500">${agent.ads} listings</span>
+                            <span class="text-gray-500">${dev.projects}+ projects</span>
                         </div>
-                    </a>
+                    </div>
                 `).join('');
             }
 
@@ -291,7 +320,7 @@
         }
 
         function renderPagination() {
-            const totalPages = Math.ceil(filteredAgents.length / perPage);
+            const totalPages = Math.ceil(filteredDevelopers.length / perPage);
             const container = document.getElementById('pagination');
             
             if (totalPages <= 1) {
@@ -301,40 +330,31 @@
 
             let html = '';
             
-            // Previous button
             html += `<button onclick="goToPage(${currentPage - 1})" 
                      class="px-3 py-2 rounded-lg ${currentPage === 1 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white text-gray-600 hover:bg-gray-100'}"
-                     ${currentPage === 1 ? 'disabled' : ''}>
-                ←
-            </button>`;
+                     ${currentPage === 1 ? 'disabled' : ''}>←</button>`;
 
-            // Page numbers
             for (let i = 1; i <= totalPages; i++) {
                 if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
                     html += `<button onclick="goToPage(${i})" 
-                             class="px-4 py-2 rounded-lg ${i === currentPage ? 'bg-primary text-white' : 'bg-white text-gray-600 hover:bg-gray-100'}">
-                        ${i}
-                    </button>`;
+                             class="px-4 py-2 rounded-lg ${i === currentPage ? 'bg-primary text-white' : 'bg-white text-gray-600 hover:bg-gray-100'}">${i}</button>`;
                 } else if (i === currentPage - 2 || i === currentPage + 2) {
                     html += `<span class="px-2 text-gray-400">...</span>`;
                 }
             }
 
-            // Next button
             html += `<button onclick="goToPage(${currentPage + 1})" 
                      class="px-3 py-2 rounded-lg ${currentPage === totalPages ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-white text-gray-600 hover:bg-gray-100'}"
-                     ${currentPage === totalPages ? 'disabled' : ''}>
-                →
-            </button>`;
+                     ${currentPage === totalPages ? 'disabled' : ''}>→</button>`;
 
             container.innerHTML = html;
         }
 
         function goToPage(page) {
-            const totalPages = Math.ceil(filteredAgents.length / perPage);
+            const totalPages = Math.ceil(filteredDevelopers.length / perPage);
             if (page < 1 || page > totalPages) return;
             currentPage = page;
-            renderAgents();
+            renderDevelopers();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -342,7 +362,7 @@
             currentView = view;
             document.getElementById('view-grid').className = `p-2 rounded-lg ${view === 'grid' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300'}`;
             document.getElementById('view-list').className = `p-2 rounded-lg ${view === 'list' ? 'bg-primary text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300'}`;
-            renderAgents();
+            renderDevelopers();
         }
 
         function resetFilters() {
@@ -350,7 +370,6 @@
             document.getElementById('city-filter').value = '';
             document.getElementById('rating-filter').value = '0';
             document.getElementById('sort-select').value = 'rating';
-            document.getElementById('page-title').textContent = 'Real Estate Agents in Cyprus';
             applyFilters();
         }
 
