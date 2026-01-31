@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backlinku vs LinkBuilders.io - Complete Comparison (2026)</title>
+    <meta name="description" content="Backlinku vs LinkBuilders.io comparison. Compare managed services vs marketplace approach, pricing, and find the best backlink solution for you.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: #fff; color: #1e293b; line-height: 1.7; }
+        
+        .top-bar { height: 4px; background: linear-gradient(90deg, #ec4899, #f472b6, #ec4899); }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 40px;
+            background: #fff;
+            border-bottom: 1px solid #f1f5f9;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg, #ec4899, #f472b6); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 18px; }
+        .logo-text { font-size: 20px; font-weight: 600; color: #1e293b; }
+        .nav { display: flex; align-items: center; gap: 32px; }
+        .nav a { color: #64748b; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        .nav a:hover { color: #1e293b; }
+        .header-actions { display: flex; align-items: center; gap: 12px; }
+        .btn-login { color: #64748b; text-decoration: none; font-size: 14px; font-weight: 500; padding: 8px 16px; }
+        .btn-primary { background: linear-gradient(135deg, #ec4899, #f472b6); color: white; text-decoration: none; font-size: 14px; font-weight: 600; padding: 10px 20px; border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3); }
+
+        .hero { background: linear-gradient(180deg, #fff 0%, #fdf2f8 100%); padding: 80px 40px; text-align: center; }
+        .hero-badge { display: inline-block; background: #fce7f3; color: #be185d; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 20px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .hero h1 { font-size: 48px; font-weight: 700; color: #1e293b; margin-bottom: 20px; }
+        .hero h1 .gradient-text { background: linear-gradient(135deg, #ec4899, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero p { color: #64748b; font-size: 18px; max-width: 700px; margin: 0 auto 30px; }
+        .hero-cta { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .btn-secondary { background: white; color: #1e293b; text-decoration: none; font-size: 14px; font-weight: 600; padding: 12px 24px; border-radius: 8px; border: 1px solid #e2e8f0; transition: all 0.2s; }
+        .btn-secondary:hover { border-color: #ec4899; color: #ec4899; }
+        .btn-large { padding: 14px 32px; font-size: 16px; }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
+
+        .verdict-box { background: linear-gradient(135deg, #fdf2f8, #fce7f3); border: 2px solid #f9a8d4; border-radius: 16px; padding: 30px; margin-bottom: 50px; }
+        .verdict-box h2 { color: #be185d; font-size: 20px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .verdict-box p { color: #1e293b; font-size: 16px; }
+        .verdict-box strong { color: #be185d; }
+
+        .section-title { font-size: 32px; font-weight: 700; color: #1e293b; margin-bottom: 30px; text-align: center; }
+        .section-subtitle { color: #64748b; text-align: center; margin-bottom: 40px; font-size: 16px; }
+
+        .comparison-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 60px; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .comparison-table thead th { background: #1e293b; color: white; padding: 20px; font-size: 16px; font-weight: 600; text-align: center; }
+        .comparison-table thead th:first-child { text-align: left; }
+        .comparison-table thead th.highlight { background: linear-gradient(135deg, #ec4899, #f472b6); }
+        .comparison-table tbody td { padding: 18px 20px; border-bottom: 1px solid #f1f5f9; text-align: center; font-size: 15px; }
+        .comparison-table tbody td:first-child { text-align: left; font-weight: 500; background: #f8fafc; }
+        .comparison-table tbody tr:last-child td { border-bottom: none; }
+        .comparison-table tbody td.highlight { background: #fdf2f8; }
+        .check { color: #22c55e; font-size: 20px; }
+        .cross { color: #ef4444; font-size: 20px; }
+        .partial { color: #f59e0b; font-size: 14px; }
+        .winner-badge { display: inline-block; background: #22c55e; color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-left: 8px; text-transform: uppercase; }
+
+        .approach-comparison { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-bottom: 60px; }
+        .approach-card { background: white; border-radius: 16px; padding: 35px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #f1f5f9; }
+        .approach-card.backlinku { border-color: #f9a8d4; background: linear-gradient(180deg, #fff 0%, #fdf2f8 100%); }
+        .approach-card h3 { font-size: 22px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .approach-card.backlinku h3 { color: #be185d; }
+        .approach-card .approach-type { display: inline-block; background: #e2e8f0; color: #475569; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 6px; margin-bottom: 15px; }
+        .approach-card.backlinku .approach-type { background: #fce7f3; color: #be185d; }
+        .approach-card p { color: #64748b; margin-bottom: 20px; }
+        .approach-card ul { list-style: none; }
+        .approach-card li { padding: 10px 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 10px; }
+        .approach-card li:last-child { border-bottom: none; }
+
+        .pricing-comparison { background: #f8fafc; border-radius: 16px; padding: 40px; margin-bottom: 60px; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 30px; }
+        .pricing-card { background: white; border-radius: 12px; padding: 30px; text-align: center; border: 2px solid #e2e8f0; }
+        .pricing-card.recommended { border-color: #ec4899; position: relative; }
+        .pricing-card.recommended::before { content: 'MORE FLEXIBLE'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #ec4899, #f472b6); color: white; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+        .pricing-card h4 { font-size: 24px; margin-bottom: 10px; }
+        .pricing-card .price { font-size: 42px; font-weight: 700; color: #1e293b; }
+        .pricing-card.recommended .price { color: #ec4899; }
+        .pricing-card .price span { font-size: 16px; font-weight: 400; color: #64748b; }
+        .pricing-card p { color: #64748b; margin-top: 10px; font-size: 14px; }
+
+        .use-cases { margin-bottom: 60px; }
+        .use-case-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .use-case { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; }
+        .use-case h4 { font-size: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .use-case p { color: #64748b; font-size: 14px; margin-bottom: 15px; }
+        .use-case .recommendation { font-weight: 600; font-size: 14px; }
+        .use-case .recommendation.backlinku { color: #ec4899; }
+        .use-case .recommendation.other { color: #64748b; }
+
+        .faq-section { margin-bottom: 60px; }
+        .faq-item { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-bottom: 15px; }
+        .faq-item h4 { font-size: 17px; color: #1e293b; margin-bottom: 12px; }
+        .faq-item p { color: #64748b; font-size: 15px; }
+
+        .cta-section { background: linear-gradient(135deg, #ec4899, #f472b6); border-radius: 20px; padding: 60px 40px; text-align: center; color: white; margin-bottom: 60px; }
+        .cta-section h2 { font-size: 36px; margin-bottom: 15px; }
+        .cta-section p { font-size: 18px; opacity: 0.9; margin-bottom: 30px; }
+        .cta-section .btn-white { background: white; color: #ec4899; text-decoration: none; font-size: 16px; font-weight: 600; padding: 14px 32px; border-radius: 8px; display: inline-block; transition: transform 0.2s; }
+        .cta-section .btn-white:hover { transform: translateY(-2px); }
+
+        .footer { background: #1e293b; color: #94a3b8; padding: 50px 40px 30px; }
+        .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: 40px; }
+        .footer-brand p { margin-top: 15px; font-size: 14px; line-height: 1.6; }
+        .footer-col h4 { color: white; margin-bottom: 20px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .footer-col a { display: block; color: #94a3b8; text-decoration: none; font-size: 14px; margin-bottom: 12px; transition: color 0.2s; }
+        .footer-col a:hover { color: #ec4899; }
+        .footer-bottom { max-width: 1200px; margin: 40px auto 0; padding-top: 25px; border-top: 1px solid #334155; display: flex; justify-content: space-between; font-size: 13px; }
+
+        @media (max-width: 768px) {
+            .header { padding: 16px 20px; }
+            .nav { display: none; }
+            .hero { padding: 50px 20px; }
+            .hero h1 { font-size: 32px; }
+            .approach-comparison, .pricing-grid, .use-case-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar"></div>
+    
+    <header class="header">
+        <a href="https://backlinku.com" class="logo">
+            <div class="logo-icon">B</div>
+            <span class="logo-text">backlinku</span>
+        </a>
+        <nav class="nav">
+            <a href="#">About Us</a>
+            <a href="#">Blog</a>
+            <a href="#">FAQs</a>
+            <a href="#">Contact</a>
+        </nav>
+        <div class="header-actions">
+            <a href="#" class="btn-login">Log in</a>
+            <a href="#" class="btn-primary">Create account</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <span class="hero-badge">Comparison Guide</span>
+        <h1><span class="gradient-text">Backlinku</span> vs LinkBuilders.io</h1>
+        <p>Marketplace vs managed service — which approach works better for your SEO strategy? We compare flexibility, pricing, and results.</p>
+        <div class="hero-cta">
+            <a href="#" class="btn-primary btn-large">Try Backlinku Free</a>
+            <a href="#comparison" class="btn-secondary btn-large">See Comparison</a>
+        </div>
+    </section>
+
+    <div class="container">
+        
+        <div class="verdict-box">
+            <h2>⚡ Quick Verdict</h2>
+            <p><strong>Different tools for different needs.</strong> Backlinku is a self-service marketplace — you pick sites, control quality, pay per link. LinkBuilders.io is a managed agency — they do the work, but at 3-5x the cost. Choose <strong>Backlinku</strong> if you want control and value. Choose <strong>LinkBuilders</strong> if you have budget and want hands-off service.</p>
+        </div>
+
+        <h2 class="section-title">Two Different Approaches</h2>
+        <div class="approach-comparison">
+            <div class="approach-card backlinku">
+                <h3>
+                    <div class="logo-icon" style="width:28px;height:28px;font-size:14px;">B</div>
+                    Backlinku
+                </h3>
+                <span class="approach-type">Self-Service Marketplace</span>
+                <p>You browse, select sites, approve content, and manage your campaign. Full control, transparent pricing.</p>
+                <ul>
+                    <li><span class="check">✓</span> Pay per link (from $50)</li>
+                    <li><span class="check">✓</span> Choose exact sites you want</li>
+                    <li><span class="check">✓</span> See metrics before buying</li>
+                    <li><span class="check">✓</span> Scale up or down anytime</li>
+                    <li><span class="check">✓</span> No long-term commitments</li>
+                </ul>
+            </div>
+            <div class="approach-card">
+                <h3>🔗 LinkBuilders.io</h3>
+                <span class="approach-type">Managed Agency Service</span>
+                <p>They handle outreach, content, and placement. Hands-off but expensive and less transparent.</p>
+                <ul>
+                    <li><span class="partial">~</span> Monthly retainer ($2,000+/mo)</li>
+                    <li><span class="cross">✗</span> They choose sites for you</li>
+                    <li><span class="partial">~</span> Limited visibility into process</li>
+                    <li><span class="cross">✗</span> 3-month minimum contracts</li>
+                    <li><span class="check">✓</span> Completely hands-off</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 class="section-title" id="comparison">Feature Comparison</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th class="highlight">Backlinku</th>
+                    <th>LinkBuilders.io</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Pricing Model</td>
+                    <td class="highlight">Pay per link <span class="winner-badge">Flexible</span></td>
+                    <td>Monthly retainer</td>
+                </tr>
+                <tr>
+                    <td>Starting Price</td>
+                    <td class="highlight"><strong>$50/link</strong> <span class="winner-badge">Winner</span></td>
+                    <td>$2,000/month</td>
+                </tr>
+                <tr>
+                    <td>Site Selection</td>
+                    <td class="highlight">You choose <span class="winner-badge">Winner</span></td>
+                    <td>They choose</td>
+                </tr>
+                <tr>
+                    <td>Transparency</td>
+                    <td class="highlight">Full metrics visible <span class="winner-badge">Winner</span></td>
+                    <td>Limited reporting</td>
+                </tr>
+                <tr>
+                    <td>Contract Length</td>
+                    <td class="highlight">None <span class="winner-badge">Winner</span></td>
+                    <td>3-month minimum</td>
+                </tr>
+                <tr>
+                    <td>Time Required</td>
+                    <td class="highlight">~2-3 hrs/week</td>
+                    <td>Minimal <span class="winner-badge">Winner</span></td>
+                </tr>
+                <tr>
+                    <td>Content Writing</td>
+                    <td class="highlight"><span class="check">✓</span> Included or DIY</td>
+                    <td><span class="check">✓</span> Included</td>
+                </tr>
+                <tr>
+                    <td>Link Monitoring</td>
+                    <td class="highlight"><span class="check">✓</span> Real-time</td>
+                    <td><span class="check">✓</span> Monthly reports</td>
+                </tr>
+                <tr>
+                    <td>Scalability</td>
+                    <td class="highlight">Buy 1 or 1,000 links <span class="winner-badge">Winner</span></td>
+                    <td>Fixed packages</td>
+                </tr>
+                <tr>
+                    <td>Best For</td>
+                    <td class="highlight">SEOs, agencies, in-house teams</td>
+                    <td>Busy founders, enterprises</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="pricing-comparison">
+            <h2 class="section-title">Cost Comparison</h2>
+            <p class="section-subtitle">What does $2,000/month get you?</p>
+            <div class="pricing-grid">
+                <div class="pricing-card recommended">
+                    <h4>Backlinku</h4>
+                    <div class="price">20-40<span> links</span></div>
+                    <p>At $50-100 per link, $2,000 gets you 20-40 quality placements with full control over site selection.</p>
+                </div>
+                <div class="pricing-card">
+                    <h4>LinkBuilders.io</h4>
+                    <div class="price">4-8<span> links</span></div>
+                    <p>Their $2,000/mo starter package typically delivers 4-8 links. Higher tiers available at higher cost.</p>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 25px; color: #64748b;">💡 Same budget, <strong style="color: #22c55e;">3-5x more links</strong> with Backlinku.</p>
+        </div>
+
+        <div class="use-cases">
+            <h2 class="section-title">Which One Should You Choose?</h2>
+            <div class="use-case-grid">
+                <div class="use-case">
+                    <h4>👨‍💻 SEO Professional / Agency</h4>
+                    <p>You know what you're doing and want maximum ROI on your link building budget.</p>
+                    <div class="recommendation backlinku">→ Choose Backlinku</div>
+                </div>
+                <div class="use-case">
+                    <h4>🚀 Startup Founder (Busy)</h4>
+                    <p>You have budget but zero time to manage link building yourself.</p>
+                    <div class="recommendation other">→ Consider LinkBuilders</div>
+                </div>
+                <div class="use-case">
+                    <h4>📊 In-House Marketing Team</h4>
+                    <p>You want control and need to justify spend with clear reporting.</p>
+                    <div class="recommendation backlinku">→ Choose Backlinku</div>
+                </div>
+                <div class="use-case">
+                    <h4>🏢 Enterprise (Large Budget)</h4>
+                    <p>You need scale and have dedicated vendor management.</p>
+                    <div class="recommendation backlinku">→ Choose Backlinku (or both)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <h4>Is Backlinku cheaper than LinkBuilders.io?</h4>
+                <p>Significantly. Backlinku's per-link pricing means you get 3-5x more placements for the same budget. However, you'll spend a few hours per week managing campaigns versus LinkBuilders' hands-off approach.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>Which has better quality links?</h4>
+                <p>Both can deliver quality links. The difference is control — with Backlinku you see exact metrics (DR, traffic, niche) before buying. With LinkBuilders, you trust their team to select appropriate sites.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>Can I try before committing?</h4>
+                <p>Backlinku: Yes, create a free account and browse the marketplace. No credit card required. LinkBuilders: They offer discovery calls but typically require a 3-month commitment.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h4>What if I don't have time to manage campaigns?</h4>
+                <p>Backlinku offers optional white-glove service for agencies. Or start with Backlinku for important placements and use LinkBuilders for volume — many teams use both.</p>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2>Ready to Build Better Backlinks?</h2>
+            <p>Start with $0 commitment. Browse 50,000+ vetted sites today.</p>
+            <a href="#" class="btn-white">Create Free Account</a>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="https://backlinku.com" class="logo">
+                    <div class="logo-icon">B</div>
+                    <span class="logo-text" style="color: white;">backlinku</span>
+                </a>
+                <p>The trusted marketplace for high-quality backlinks. Vetted sites, fair pricing, real results.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="#">Features</a>
+                <a href="#">Pricing</a>
+                <a href="#">Case Studies</a>
+                <a href="#">About Us</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="#">Blog</a>
+                <a href="#">SEO Guide</a>
+                <a href="#">Partnership</a>
+            </div>
+            <div class="footer-col">
+                <h4>Support</h4>
+                <a href="#">FAQs</a>
+                <a href="#">Contact</a>
+                <a href="#">Live Chat</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 Backlinku. All rights reserved.</span>
+            <span>Privacy Policy · Terms & Conditions</span>
+        </div>
+    </footer>
+
+</body>
+</html>
