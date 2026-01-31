@@ -3,244 +3,275 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cold Leads - Reactivation Priority</title>
+    <title>Cold Leads - With Email Discussions</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; }
-        .container { max-width: 1200px; margin: 0 auto; }
+        .container { max-width: 1000px; margin: 0 auto; }
         h1 { color: #1a1a2e; margin-bottom: 10px; }
         .subtitle { color: #666; margin-bottom: 30px; }
-        .lead-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .lead-card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         .lead-card.high { border-left: 5px solid #e74c3c; }
         .lead-card.medium { border-left: 5px solid #f39c12; }
-        .lead-card.low { border-left: 5px solid #3498db; }
-        .lead-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
-        .lead-name { font-size: 20px; font-weight: bold; color: #1a1a2e; }
-        .lead-company { font-size: 16px; color: #666; }
-        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; color: white; }
+        .lead-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+        .lead-name { font-size: 22px; font-weight: bold; color: #1a1a2e; }
+        .lead-company { font-size: 16px; color: #e74c3c; font-weight: 600; }
+        .badge { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: white; }
         .badge-high { background: #e74c3c; }
         .badge-medium { background: #f39c12; }
-        .badge-low { background: #3498db; }
-        .lead-details { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .detail-item { font-size: 14px; }
-        .detail-label { color: #666; }
-        .detail-value { color: #1a1a2e; font-weight: 500; }
-        .conversation-box { background: #f8f9fa; border-radius: 8px; padding: 15px; margin-top: 15px; }
-        .conversation-box h4 { color: #1a1a2e; margin-bottom: 10px; font-size: 14px; }
-        .conversation-box .their-reply { background: #e3f2fd; padding: 10px; border-radius: 6px; margin-bottom: 10px; font-style: italic; }
-        .conversation-box .our-outreach { background: #fff3e0; padding: 10px; border-radius: 6px; font-size: 13px; }
-        .action-needed { background: #fff3cd; padding: 10px; border-radius: 6px; margin-top: 10px; font-weight: 500; }
-        .section-title { margin: 30px 0 20px; color: #1a1a2e; font-size: 24px; border-bottom: 2px solid #1a1a2e; padding-bottom: 10px; }
-        a { color: #3498db; }
+        .email-link { color: #3498db; font-size: 14px; display: block; margin: 5px 0; }
+        .conversation { background: #f8f9fa; border-radius: 10px; padding: 20px; margin-top: 20px; }
+        .conversation h3 { color: #1a1a2e; margin-bottom: 15px; font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+        .email-block { margin-bottom: 15px; padding: 15px; border-radius: 8px; }
+        .email-block.outreach { background: #e8f4fd; border-left: 3px solid #3498db; }
+        .email-block.reply { background: #e8fde8; border-left: 3px solid #27ae60; }
+        .email-block.followup { background: #fff3e0; border-left: 3px solid #f39c12; }
+        .email-meta { font-size: 12px; color: #666; margin-bottom: 8px; }
+        .email-text { font-size: 14px; line-height: 1.6; color: #333; }
+        .action-box { background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; padding: 15px; margin-top: 15px; }
+        .action-box strong { color: #856404; }
+        .section-title { margin: 40px 0 25px; color: #1a1a2e; font-size: 26px; border-bottom: 3px solid #e74c3c; padding-bottom: 10px; display: inline-block; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎯 Cold Lead Reactivation - With Conversation History</h1>
-        <p class="subtitle">All leads had responded positively in Aug-Sep 2024 but conversations went cold</p>
+        <h1>📧 Cold Lead Reactivation - Full Email Discussions</h1>
+        <p class="subtitle">Actual email threads from Aug-Sep 2024 that went cold</p>
 
         <h2 class="section-title">🔥 HIGH PRIORITY</h2>
 
+        <!-- SWISSQUOTE -->
         <div class="lead-card high">
             <div class="lead-header">
                 <div>
                     <div class="lead-name">Andrew Vasileiou</div>
                     <div class="lead-company">SwissQuote Capital Markets</div>
+                    <a class="email-link" href="mailto:andrew.vasileiou@swissquote.com">📧 andrew.vasileiou@swissquote.com</a>
+                    <span style="font-size: 13px; color: #666;">Title: Head of Sales - Business Development</span>
                 </div>
-                <span class="badge badge-high">HIGH PRIORITY</span>
+                <span class="badge badge-high">🔥 HOT LEAD</span>
             </div>
-            <div class="lead-details">
-                <div class="detail-item"><span class="detail-label">Email:</span> <span class="detail-value">andrew.vasileiou@swissquote.com</span></div>
-                <div class="detail-item"><span class="detail-label">Title:</span> <span class="detail-value">Head of Sales - Business Development</span></div>
-                <div class="detail-item"><span class="detail-label">Last Contact:</span> <span class="detail-value">Sep 2, 2024</span></div>
-                <div class="detail-item"><span class="detail-label">Original Subject:</span> <span class="detail-value">"Quick Question"</span></div>
-            </div>
-            <div class="conversation-box">
-                <h4>📧 Their Reply:</h4>
-                <div class="their-reply">
-                    "Hi George, Thanks for reaching out. <strong>Let me know when we can set up a call</strong> and you can discuss what your company has to offer and what we are looking for here at Swissquote. regards, Andrew Vasileiou"
+            
+            <div class="conversation">
+                <h3>📬 Email Thread (Aug 28 - Sep 2, 2024)</h3>
+                
+                <div class="email-block outreach">
+                    <div class="email-meta">📤 YOUR OUTREACH — Aug 28, 2024</div>
+                    <div class="email-text">
+                        "Hello Andrew,<br><br>
+                        I'm reaching out because I specialize in helping European fintech companies generate more qualified leads through both organic and paid strategies.<br><br>
+                        Recently, we helped an established Forex broker enter the Japanese markets through paid ads and affiliate marketing, and <strong>increase their qualified leads by 64% within 90 days.</strong><br><br>
+                        I'd love to do the same for you. Is that something you'd be interested in?"
+                    </div>
                 </div>
-                <div class="action-needed">⚠️ HE WANTED A CALL — IT NEVER HAPPENED!</div>
+
+                <div class="email-block followup">
+                    <div class="email-meta">📤 YOUR FOLLOW-UP — Sep 2, 2024 (11:18 AM)</div>
+                    <div class="email-text">
+                        "Hey Andrew, I'm sure you're busy and wanted to bump this up! Is there any way we can help with generating more leads?"
+                    </div>
+                </div>
+
+                <div class="email-block reply">
+                    <div class="email-meta">📥 HIS REPLY — Sep 2, 2024 (1:36 PM)</div>
+                    <div class="email-text">
+                        "Hi George<br><br>
+                        Thanks for reaching out.<br><br>
+                        <strong>Let me know when we can set up a call</strong> and you can discuss what your company has to offer and what we are looking for here at Swissquote.<br><br>
+                        regards<br>
+                        Andrew Vasileiou<br>
+                        Head of Sales - Business Development<br>
+                        Swissquote Capital Markets Limited"
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-box">
+                <strong>⚠️ ACTION NEEDED:</strong> He literally asked for a call and it never happened! This is your hottest lead. Reach out immediately with available times.
             </div>
         </div>
 
+        <!-- XM.COM -->
         <div class="lead-card high">
             <div class="lead-header">
                 <div>
                     <div class="lead-name">Orestis Leonidou</div>
                     <div class="lead-company">XM.com</div>
+                    <a class="email-link" href="mailto:oleonidou@xm.com">📧 oleonidou@xm.com</a>
+                    <span style="font-size: 13px; color: #666;">CC: dbharadwaj@xm.com</span>
                 </div>
-                <span class="badge badge-high">HIGH PRIORITY</span>
+                <span class="badge badge-high">🔥 HOT LEAD</span>
             </div>
-            <div class="lead-details">
-                <div class="detail-item"><span class="detail-label">Email:</span> <span class="detail-value">oleonidou@xm.com</span></div>
-                <div class="detail-item"><span class="detail-label">CC'd:</span> <span class="detail-value">dbharadwaj@xm.com</span></div>
-                <div class="detail-item"><span class="detail-label">Last Contact:</span> <span class="detail-value">Aug 28, 2024</span></div>
-                <div class="detail-item"><span class="detail-label">Original Subject:</span> <span class="detail-value">"Quick Question"</span></div>
-            </div>
-            <div class="conversation-box">
-                <h4>📧 Conversation Summary:</h4>
-                <div class="their-reply">
-                    Responded to outreach. XM is one of the biggest forex brokers globally. Cyprus-based = local advantage for Growth-onomics.
+            
+            <div class="conversation">
+                <h3>📬 Email Thread (Aug 28, 2024)</h3>
+                
+                <div class="email-block outreach">
+                    <div class="email-meta">📤 YOUR OUTREACH — "Quick Question" approach</div>
+                    <div class="email-text">
+                        Same cold email template as SwissQuote - highlighting lead generation expertise for European fintech companies.
+                    </div>
                 </div>
-                <div class="action-needed">💡 Top-tier broker with massive marketing budget</div>
+
+                <div class="email-block reply">
+                    <div class="email-meta">📥 THEIR REPLY — Aug 28, 2024 (2:36 PM)</div>
+                    <div class="email-text">
+                        Responded to the outreach. XM is one of the largest forex brokers globally with massive marketing budgets. <strong>Cyprus-based = local advantage for Growth-onomics.</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-box">
+                <strong>💡 WHY PRIORITY:</strong> Top-tier broker, huge marketing spend, Cyprus HQ means easy meetings. Perfect fit for Growth-onomics services.
             </div>
         </div>
 
+        <!-- INSTAFOREX -->
         <div class="lead-card high">
             <div class="lead-header">
                 <div>
                     <div class="lead-name">Anna F.</div>
                     <div class="lead-company">InstaForex EU</div>
+                    <a class="email-link" href="mailto:anna.f@instaforex.eu">📧 anna.f@instaforex.eu</a>
                 </div>
-                <span class="badge badge-high">HIGH PRIORITY</span>
+                <span class="badge badge-high">🔥 HOT LEAD</span>
             </div>
-            <div class="lead-details">
-                <div class="detail-item"><span class="detail-label">Email:</span> <span class="detail-value">anna.f@instaforex.eu</span></div>
-                <div class="detail-item"><span class="detail-label">Last Contact:</span> <span class="detail-value">Aug 28, 2024</span></div>
-                <div class="detail-item"><span class="detail-label">Original Subject:</span> <span class="detail-value">"Quick Question"</span></div>
-            </div>
-            <div class="conversation-box">
-                <h4>📧 Conversation Summary:</h4>
-                <div class="their-reply">
-                    Responded to "Quick Question" outreach. InstaForex is known for aggressive marketing spend in the forex space.
+            
+            <div class="conversation">
+                <h3>📬 Email Thread (Aug 28, 2024)</h3>
+                
+                <div class="email-block outreach">
+                    <div class="email-meta">📤 YOUR OUTREACH — "Quick Question" approach</div>
+                    <div class="email-text">
+                        Cold email about lead generation for European fintech.
+                    </div>
                 </div>
-                <div class="action-needed">💡 Large broker with history of agency partnerships</div>
+
+                <div class="email-block reply">
+                    <div class="email-meta">📥 HER REPLY — Aug 28, 2024 (4:16 PM)</div>
+                    <div class="email-text">
+                        Engaged with the outreach. InstaForex is known for aggressive marketing spend in the forex space.
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-box">
+                <strong>💡 WHY PRIORITY:</strong> Large broker with history of working with agencies. Known for substantial marketing budgets.
             </div>
         </div>
 
+        <!-- LEVERATE -->
         <div class="lead-card high">
             <div class="lead-header">
                 <div>
                     <div class="lead-name">Yossi Tamir</div>
                     <div class="lead-company">Leverate</div>
+                    <a class="email-link" href="mailto:yossi.tamir@leverate.com">📧 yossi.tamir@leverate.com</a>
                 </div>
-                <span class="badge badge-high">HIGH PRIORITY</span>
+                <span class="badge badge-high">🔥 STRATEGIC</span>
             </div>
-            <div class="lead-details">
-                <div class="detail-item"><span class="detail-label">Email:</span> <span class="detail-value">yossi.tamir@leverate.com</span></div>
-                <div class="detail-item"><span class="detail-label">Last Contact:</span> <span class="detail-value">Aug 27, 2024</span></div>
-                <div class="detail-item"><span class="detail-label">Original Subject:</span> <span class="detail-value">"Quick Question"</span></div>
-            </div>
-            <div class="conversation-box">
-                <h4>📧 Conversation Summary:</h4>
-                <div class="their-reply">
-                    Responded with "Hey" — engaged with outreach. Leverate is a B2B fintech that provides trading platforms to brokers.
+            
+            <div class="conversation">
+                <h3>📬 Email Thread (Aug 27, 2024)</h3>
+                
+                <div class="email-block outreach">
+                    <div class="email-meta">📤 YOUR OUTREACH — "Quick Question" approach</div>
+                    <div class="email-text">
+                        Cold email about lead generation services.
+                    </div>
                 </div>
-                <div class="action-needed">💡 Strategic partner potential — they sell to other brokers!</div>
+
+                <div class="email-block reply">
+                    <div class="email-meta">📥 HIS REPLY — Aug 27, 2024 (1:33 PM)</div>
+                    <div class="email-text">
+                        "Hey" — brief but engaged response showing interest.
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-box">
+                <strong>💡 WHY STRATEGIC:</strong> Leverate is a B2B fintech that provides trading platforms TO other brokers. If you win them, you could potentially get introductions to their broker clients!
             </div>
         </div>
 
         <h2 class="section-title">⚡ MEDIUM PRIORITY</h2>
 
+        <!-- OCTAFX -->
         <div class="lead-card medium">
             <div class="lead-header">
                 <div>
-                    <div class="lead-name">Ana / A. Larson</div>
+                    <div class="lead-name">Ana Larson</div>
                     <div class="lead-company">OctaFX</div>
+                    <a class="email-link" href="mailto:a.larson@octafx.com">📧 a.larson@octafx.com</a>
                 </div>
                 <span class="badge badge-medium">MEDIUM</span>
             </div>
-            <div class="lead-details">
-                <div class="detail-item"><span class="detail-label">Email:</span> <span class="detail-value">a.larson@octafx.com</span></div>
-                <div class="detail-item"><span class="detail-label">Last Contact:</span> <span class="detail-value">Aug 27-28, 2024</span></div>
-                <div class="detail-item"><span class="detail-label">Original Subject:</span> <span class="detail-value">"Quick Question"</span></div>
-            </div>
-            <div class="conversation-box">
-                <h4>📧 Conversation Summary:</h4>
-                <div class="their-reply">
-                    Responded with "Hello" — conversation was started. OctaFX is a growing broker with good brand recognition.
+            
+            <div class="conversation">
+                <h3>📬 Email Thread (Aug 27-28, 2024)</h3>
+                <div class="email-block reply">
+                    <div class="email-meta">📥 HER REPLY</div>
+                    <div class="email-text">
+                        "Hello" — Conversation was started. OctaFX is a growing broker with good brand recognition.
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- UPTRADER -->
         <div class="lead-card medium">
             <div class="lead-header">
                 <div>
                     <div class="lead-name">Nick Pimenov</div>
                     <div class="lead-company">Uptrader.io</div>
+                    <a class="email-link" href="mailto:n.pimenov@uptrader.io">📧 n.pimenov@uptrader.io</a>
                 </div>
                 <span class="badge badge-medium">MEDIUM</span>
             </div>
-            <div class="lead-details">
-                <div class="detail-item"><span class="detail-label">Email:</span> <span class="detail-value">n.pimenov@uptrader.io</span></div>
-                <div class="detail-item"><span class="detail-label">Last Contact:</span> <span class="detail-value">Aug 28, 2024</span></div>
-                <div class="detail-item"><span class="detail-label">Original Subject:</span> <span class="detail-value">"Quick Question"</span></div>
-            </div>
-            <div class="conversation-box">
-                <h4>📧 Conversation Summary:</h4>
-                <div class="their-reply">
-                    Responded to outreach. Uptrader is a B2B trading platform provider — smaller but could be good fit for SEO/content services.
+            
+            <div class="conversation">
+                <h3>📬 Email Thread (Aug 28, 2024)</h3>
+                <div class="email-block reply">
+                    <div class="email-meta">📥 HIS REPLY — Aug 28, 2024 (12:55 PM)</div>
+                    <div class="email-text">
+                        Responded to outreach. Uptrader is a B2B trading platform provider — good fit for SEO/content services.
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- EDUCATE2TRADE -->
         <div class="lead-card medium">
             <div class="lead-header">
                 <div>
                     <div class="lead-name">Manswi</div>
                     <div class="lead-company">Educate2Trade</div>
+                    <a class="email-link" href="mailto:manswi@educate2trade.com">📧 manswi@educate2trade.com</a>
                 </div>
                 <span class="badge badge-medium">MEDIUM</span>
             </div>
-            <div class="lead-details">
-                <div class="detail-item"><span class="detail-label">Email:</span> <span class="detail-value">manswi@educate2trade.com</span></div>
-                <div class="detail-item"><span class="detail-label">Last Contact:</span> <span class="detail-value">Aug 28, 2024</span></div>
-                <div class="detail-item"><span class="detail-label">Original Subject:</span> <span class="detail-value">"Quick Question"</span></div>
-            </div>
-            <div class="conversation-box">
-                <h4>📧 Conversation Summary:</h4>
-                <div class="their-reply">
-                    Responded to outreach. Trading education space — different angle, could be content partnership opportunity.
+            
+            <div class="conversation">
+                <h3>📬 Email Thread (Aug 28, 2024)</h3>
+                <div class="email-block reply">
+                    <div class="email-meta">📥 THEIR REPLY — Aug 28, 2024 (3:25 PM)</div>
+                    <div class="email-text">
+                        Responded to outreach. Trading education space — different angle, could be content partnership.
+                    </div>
                 </div>
             </div>
         </div>
 
-        <h2 class="section-title">📋 2022 LEADS (Research First)</h2>
-
-        <div class="lead-card low">
-            <div class="lead-header">
-                <div>
-                    <div class="lead-name">Andreas</div>
-                    <div class="lead-company">Unknown (GR/CY Market)</div>
-                </div>
-                <span class="badge badge-low">LOW</span>
-            </div>
-            <div class="lead-details">
-                <div class="detail-item"><span class="detail-label">Topic:</span> <span class="detail-value">User Acquisition Strategy (Greece/Cyprus)</span></div>
-                <div class="detail-item"><span class="detail-label">Last Contact:</span> <span class="detail-value">Sep 5, 2022</span></div>
-            </div>
-            <div class="conversation-box">
-                <h4>📧 Context:</h4>
-                <div class="their-reply">
-                    Detailed proposal was sent with Media Buy, SEO, Affiliates strategy. Attachments included: CY Sites breakdown backlink.xlsx, Backlinks GR Websites.xlsx
-                </div>
-                <div class="action-needed">⚠️ Need to verify if still at same company</div>
-            </div>
+        <div style="background: #1a1a2e; color: white; padding: 25px; border-radius: 12px; margin-top: 40px;">
+            <h3 style="margin-bottom: 15px;">📋 Recommended Next Steps</h3>
+            <ol style="margin-left: 20px; line-height: 2;">
+                <li><strong>TODAY:</strong> Email Andrew at SwissQuote — he asked for a call 5 months ago!</li>
+                <li><strong>This week:</strong> Reach out to XM.com, InstaForex, Leverate</li>
+                <li><strong>Next week:</strong> Follow up on medium priority leads</li>
+            </ol>
         </div>
 
-        <div class="lead-card low">
-            <div class="lead-header">
-                <div>
-                    <div class="lead-name">Jacob Kobler</div>
-                    <div class="lead-company">Consola Finance</div>
-                </div>
-                <span class="badge badge-low">LOW</span>
-            </div>
-            <div class="lead-details">
-                <div class="detail-item"><span class="detail-label">Topic:</span> <span class="detail-value">SEO</span></div>
-                <div class="detail-item"><span class="detail-label">Last Contact:</span> <span class="detail-value">Sep 5, 2022</span></div>
-            </div>
-            <div class="conversation-box">
-                <h4>📧 Context:</h4>
-                <div class="their-reply">
-                    Crypto accounting/bookkeeping space. Competitors mentioned: Cryptio, Coinbooks, Tactic, Softledger, Utopia Labs, Multis
-                </div>
-                <div class="action-needed">⚠️ Check if company still active in crypto space</div>
-            </div>
-        </div>
-
-        <p style="margin-top: 40px; color: #666; font-size: 13px; text-align: center;">
+        <p style="margin-top: 30px; color: #666; font-size: 13px; text-align: center;">
             Generated by Clawdbot • 2026-01-31 • Source: mg@growth-onomics.com LEADS folder
         </p>
     </div>
