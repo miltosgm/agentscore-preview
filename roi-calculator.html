@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROI Calculator | Growth-onomics</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        .subtitle {
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .input-group {
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        .input-hint {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 8px;
+        }
+        input[type="number"], select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: border-color 0.3s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 600px) {
+            .row { grid-template-columns: 1fr; }
+        }
+        button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        .results {
+            display: none;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+        .results.show { display: block; }
+        .results h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .metric {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+        .metric-value.green { color: #22c55e; }
+        .metric-value.orange { color: #f59e0b; }
+        .metric-label {
+            color: #666;
+            font-size: 0.95rem;
+            margin-top: 5px;
+        }
+        .roi-highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .roi-highlight .metric-value {
+            color: white;
+            font-size: 3.5rem;
+        }
+        .roi-highlight .metric-label { color: rgba(255,255,255,0.9); }
+        .breakdown {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        .breakdown h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .breakdown-row:last-child { border-bottom: none; }
+        .cta {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .cta a {
+            display: inline-block;
+            padding: 15px 40px;
+            background: #22c55e;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .cta a:hover { transform: translateY(-2px); }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img { height: 40px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📈 ROI Calculator</h1>
+        <p class="subtitle">See your potential return from performance marketing</p>
+        
+        <div class="card">
+            <div class="row">
+                <div class="input-group">
+                    <label>Monthly Ad Spend ($)</label>
+                    <div class="input-hint">Your current or planned monthly budget</div>
+                    <input type="number" id="adSpend" value="10000" min="1000" step="1000">
+                </div>
+                <div class="input-group">
+                    <label>Average Order Value ($)</label>
+                    <div class="input-hint">Revenue per customer/sale</div>
+                    <input type="number" id="aov" value="500" min="10" step="10">
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="input-group">
+                    <label>Current Cost Per Acquisition ($)</label>
+                    <div class="input-hint">What you pay to acquire a customer now</div>
+                    <input type="number" id="currentCPA" value="150" min="1" step="5">
+                </div>
+                <div class="input-group">
+                    <label>Customer Lifetime Value ($)</label>
+                    <div class="input-hint">Total revenue from a customer over time</div>
+                    <input type="number" id="ltv" value="2000" min="100" step="100">
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="input-group">
+                    <label>Service Type</label>
+                    <select id="serviceType">
+                        <option value="performance">Performance Marketing</option>
+                        <option value="seo">SEO & Content</option>
+                        <option value="aeo">AEO (AI Search)</option>
+                        <option value="full">Full Growth Partnership</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Timeline (months)</label>
+                    <select id="timeline">
+                        <option value="3">3 months</option>
+                        <option value="6" selected>6 months</option>
+                        <option value="12">12 months</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button onclick="calculateROI()">Calculate My ROI →</button>
+            
+            <div class="results" id="results">
+                <h2>Your Projected Results</h2>
+                
+                <div class="roi-highlight">
+                    <div class="metric-value" id="roiPercent">0%</div>
+                    <div class="metric-label">Projected ROI</div>
+                </div>
+                
+                <div class="row">
+                    <div class="metric">
+                        <div class="metric-value green" id="newCustomers">0</div>
+                        <div class="metric-label">Additional Customers</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value green" id="revenueGain">$0</div>
+                        <div class="metric-label">Revenue Increase</div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="metric">
+                        <div class="metric-value" id="newCPA">$0</div>
+                        <div class="metric-label">Optimized CPA</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value orange" id="savings">$0</div>
+                        <div class="metric-label">Monthly Savings</div>
+                    </div>
+                </div>
+                
+                <div class="breakdown">
+                    <h3>Investment Breakdown</h3>
+                    <div class="breakdown-row">
+                        <span>Ad Spend (<span id="timelineText">6</span> months)</span>
+                        <span id="totalAdSpend">$60,000</span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span>Management Fee (estimated)</span>
+                        <span id="managementFee">$12,000</span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span><strong>Total Investment</strong></span>
+                        <span><strong id="totalInvestment">$72,000</strong></span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span style="color: #22c55e"><strong>Projected Return</strong></span>
+                        <span style="color: #22c55e"><strong id="totalReturn">$120,000</strong></span>
+                    </div>
+                </div>
+                
+                <div class="cta">
+                    <p style="margin-bottom: 15px; color: #666;">Ready to achieve these results?</p>
+                    <a href="https://calendly.com/growth-onomics/discovery" target="_blank">Book a Strategy Call →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function calculateROI() {
+            const adSpend = parseFloat(document.getElementById('adSpend').value);
+            const aov = parseFloat(document.getElementById('aov').value);
+            const currentCPA = parseFloat(document.getElementById('currentCPA').value);
+            const ltv = parseFloat(document.getElementById('ltv').value);
+            const serviceType = document.getElementById('serviceType').value;
+            const timeline = parseInt(document.getElementById('timeline').value);
+            
+            // CPA improvement estimates by service type
+            const improvements = {
+                performance: 0.25,  // 25% CPA reduction
+                seo: 0.35,          // 35% CPA reduction (organic is "free")
+                aeo: 0.30,          // 30% CPA reduction
+                full: 0.40          // 40% CPA reduction (combined effect)
+            };
+            
+            // Management fee estimates (% of ad spend)
+            const feeRates = {
+                performance: 0.15,
+                seo: 0.20,
+                aeo: 0.18,
+                full: 0.25
+            };
+            
+            const improvement = improvements[serviceType];
+            const feeRate = feeRates[serviceType];
+            
+            // Calculate current state
+            const currentMonthlyCustomers = adSpend / currentCPA;
+            
+            // Calculate optimized state
+            const newCPA = currentCPA * (1 - improvement);
+            const newMonthlyCustomers = adSpend / newCPA;
+            const additionalCustomers = (newMonthlyCustomers - currentMonthlyCustomers) * timeline;
+            
+            // Revenue calculations
+            const additionalRevenue = additionalCustomers * aov;
+            const ltvRevenue = additionalCustomers * ltv;
+            
+            // Cost calculations
+            const totalAdSpend = adSpend * timeline;
+            const managementFee = totalAdSpend * feeRate;
+            const totalInvestment = totalAdSpend + managementFee;
+            
+            // Monthly savings from CPA improvement
+            const monthlySavings = (currentCPA - newCPA) * currentMonthlyCustomers;
+            
+            // ROI calculation (using LTV for true value)
+            const netGain = ltvRevenue - managementFee; // Ad spend isn't "lost" - it's converted to customers
+            const roi = (netGain / totalInvestment) * 100;
+            
+            // Update UI
+            document.getElementById('roiPercent').textContent = Math.round(roi) + '%';
+            document.getElementById('newCustomers').textContent = Math.round(additionalCustomers);
+            document.getElementById('revenueGain').textContent = '$' + formatNumber(Math.round(ltvRevenue));
+            document.getElementById('newCPA').textContent = '$' + Math.round(newCPA);
+            document.getElementById('savings').textContent = '$' + formatNumber(Math.round(monthlySavings)) + '/mo';
+            document.getElementById('timelineText').textContent = timeline;
+            document.getElementById('totalAdSpend').textContent = '$' + formatNumber(totalAdSpend);
+            document.getElementById('managementFee').textContent = '$' + formatNumber(Math.round(managementFee));
+            document.getElementById('totalInvestment').textContent = '$' + formatNumber(Math.round(totalInvestment));
+            document.getElementById('totalReturn').textContent = '$' + formatNumber(Math.round(ltvRevenue));
+            
+            document.getElementById('results').classList.add('show');
+        }
+        
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+    </script>
+</body>
+</html>
