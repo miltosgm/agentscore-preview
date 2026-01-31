@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐾 Clawdy Mission Control</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d1117;
+            color: #e6edf3;
+            min-height: 100vh;
+        }
+        .header {
+            background: #161b22;
+            border-bottom: 1px solid #30363d;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+        .header-actions { display: flex; gap: 12px; align-items: center; }
+        .last-updated {
+            font-size: 12px;
+            color: #8b949e;
+        }
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid #30363d;
+            background: #21262d;
+            color: #e6edf3;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .btn:hover { background: #30363d; }
+        .btn-primary {
+            background: #238636;
+            border-color: #238636;
+        }
+        .btn-primary:hover { background: #2ea043; }
+        .stats {
+            display: flex;
+            gap: 24px;
+            padding: 20px 24px;
+            background: #161b22;
+            border-bottom: 1px solid #30363d;
+            flex-wrap: wrap;
+        }
+        .stat {
+            display: flex;
+            flex-direction: column;
+            min-width: 100px;
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #58a6ff;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .stat-value.green { color: #3fb950; }
+        .stat-value.purple { color: #a855f7; }
+        .stat-value.orange { color: #f0883e; }
+        .stat-value.red { color: #f85149; }
+        .main {
+            display: flex;
+            padding: 24px;
+            gap: 24px;
+            min-height: calc(100vh - 180px);
+        }
+        .board {
+            flex: 1;
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding-bottom: 16px;
+        }
+        .column {
+            min-width: 300px;
+            max-width: 300px;
+            background: #161b22;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid #30363d;
+            display: flex;
+            flex-direction: column;
+        }
+        .column-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #30363d;
+        }
+        .column-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .column-icon {
+            font-size: 16px;
+        }
+        .column-count {
+            background: #30363d;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #8b949e;
+        }
+        .column-body {
+            flex: 1;
+            overflow-y: auto;
+        }
+        .task {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .task:hover { 
+            border-color: #58a6ff; 
+            transform: translateY(-1px);
+        }
+        .task.done {
+            opacity: 0.6;
+        }
+        .task-title {
+            font-weight: 500;
+            margin-bottom: 6px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .task-desc {
+            font-size: 12px;
+            color: #8b949e;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        .task-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .tag {
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        .tag-backlinku { background: #1f3d5c; color: #58a6ff; }
+        .tag-agentscore { background: #2d1f3d; color: #a855f7; }
+        .tag-general { background: #3d2f1f; color: #f0883e; }
+        .priority {
+            font-size: 11px;
+            color: #8b949e;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .priority-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #8b949e;
+        }
+        .priority-dot.high { background: #f85149; }
+        .priority-dot.medium { background: #f0883e; }
+        .priority-dot.low { background: #3fb950; }
+        .checkmark { color: #3fb950; }
+        .activity {
+            width: 340px;
+            min-width: 340px;
+            background: #161b22;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid #30363d;
+            display: flex;
+            flex-direction: column;
+        }
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        .activity-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+        .activity-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #21262d;
+            font-size: 13px;
+        }
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        .activity-time {
+            color: #8b949e;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+        .activity-action { 
+            color: #58a6ff; 
+            font-weight: 500;
+        }
+        .project-filters {
+            display: flex;
+            gap: 8px;
+            padding: 0 24px 16px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid #30363d;
+            background: transparent;
+            color: #8b949e;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover {
+            border-color: #58a6ff;
+            color: #e6edf3;
+        }
+        .filter-btn.active {
+            background: #21262d;
+            border-color: #58a6ff;
+            color: #58a6ff;
+        }
+        .empty-column {
+            color: #8b949e;
+            font-size: 13px;
+            text-align: center;
+            padding: 20px;
+        }
+        @media (max-width: 1200px) {
+            .activity {
+                display: none;
+            }
+        }
+        @media (max-width: 768px) {
+            .column {
+                min-width: 260px;
+            }
+            .stats {
+                gap: 16px;
+            }
+            .stat-value {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">🐾</div>
+            Clawdy Mission Control
+        </div>
+        <div class="header-actions">
+            <span class="last-updated" id="lastUpdated">Loading...</span>
+            <button class="btn" onclick="loadData()">🔄 Refresh</button>
+        </div>
+    </div>
+    
+    <div class="stats" id="stats">
+        <!-- Stats populated by JS -->
+    </div>
+    
+    <div class="project-filters" id="filters">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+    </div>
+    
+    <div class="main">
+        <div class="board" id="board">
+            <!-- Board populated by JS -->
+        </div>
+        
+        <div class="activity">
+            <div class="activity-title">📜 Activity Feed</div>
+            <div class="activity-list" id="activityList">
+                <!-- Activity populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let data = null;
+        let currentFilter = 'all';
+        
+        const columns = [
+            { id: 'backlog', title: 'Backlog', icon: '📥' },
+            { id: 'in-progress', title: 'In Progress', icon: '🔨' },
+            { id: 'review', title: 'Review', icon: '👀' },
+            { id: 'done', title: 'Done', icon: '✅' }
+        ];
+
+        async function loadData() {
+            try {
+                const response = await fetch('tasks.json?' + Date.now());
+                data = await response.json();
+                render();
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        function render() {
+            if (!data) return;
+            renderStats();
+            renderFilters();
+            renderBoard();
+            renderActivity();
+            
+            const lastUpdated = new Date(data.lastUpdated);
+            document.getElementById('lastUpdated').textContent = 
+                'Updated: ' + lastUpdated.toLocaleString();
+        }
+
+        function renderStats() {
+            const tasks = data.tasks;
+            const total = tasks.length;
+            const done = tasks.filter(t => t.status === 'done').length;
+            const inProgress = tasks.filter(t => t.status === 'in-progress').length;
+            const highPriority = tasks.filter(t => t.priority === 'high' && t.status !== 'done').length;
+            const percent = total > 0 ? Math.round((done / total) * 100) : 0;
+
+            document.getElementById('stats').innerHTML = `
+                <div class="stat">
+                    <div class="stat-value purple">${data.projects.length}</div>
+                    <div class="stat-label">Projects</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">${total}</div>
+                    <div class="stat-label">Total Tasks</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value orange">${inProgress}</div>
+                    <div class="stat-label">In Progress</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value green">${percent}%</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value red">${highPriority}</div>
+                    <div class="stat-label">High Priority</div>
+                </div>
+            `;
+        }
+
+        function renderFilters() {
+            const filtersHtml = `
+                <button class="filter-btn ${currentFilter === 'all' ? 'active' : ''}" 
+                        onclick="setFilter('all')">All Projects</button>
+                ${data.projects.map(p => `
+                    <button class="filter-btn ${currentFilter === p.id ? 'active' : ''}" 
+                            onclick="setFilter('${p.id}')"
+                            style="--color: ${p.color}">
+                        ${p.name}
+                    </button>
+                `).join('')}
+            `;
+            document.getElementById('filters').innerHTML = filtersHtml;
+        }
+
+        function setFilter(filter) {
+            currentFilter = filter;
+            render();
+        }
+
+        function renderBoard() {
+            const boardHtml = columns.map(col => {
+                let tasks = data.tasks.filter(t => t.status === col.id);
+                if (currentFilter !== 'all') {
+                    tasks = tasks.filter(t => t.project === currentFilter);
+                }
+                
+                return `
+                    <div class="column">
+                        <div class="column-header">
+                            <div class="column-title">
+                                <span class="column-icon">${col.icon}</span>
+                                ${col.title}
+                            </div>
+                            <span class="column-count">${tasks.length}</span>
+                        </div>
+                        <div class="column-body">
+                            ${tasks.length === 0 ? 
+                                '<div class="empty-column">No tasks</div>' :
+                                tasks.map(t => renderTask(t, col.id === 'done')).join('')
+                            }
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('board').innerHTML = boardHtml;
+        }
+
+        function renderTask(task, isDone) {
+            const project = data.projects.find(p => p.id === task.project);
+            return `
+                <div class="task ${isDone ? 'done' : ''}">
+                    <div class="task-title">
+                        ${isDone ? '<span class="checkmark">✓</span>' : ''}
+                        ${task.title}
+                    </div>
+                    <div class="task-desc">${task.description}</div>
+                    <div class="task-meta">
+                        <span class="tag tag-${task.project}">${project?.name || task.project}</span>
+                        <span class="priority">
+                            <span class="priority-dot ${task.priority}"></span>
+                            ${task.priority}
+                        </span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderActivity() {
+            const activityHtml = data.activity.slice(0, 10).map(a => {
+                const time = new Date(a.time);
+                const timeStr = formatTime(time);
+                return `
+                    <div class="activity-item">
+                        <span class="activity-action">${a.action}</span> ${a.detail}
+                        <div class="activity-time">${timeStr}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('activityList').innerHTML = activityHtml;
+        }
+
+        function formatTime(date) {
+            const now = new Date();
+            const diff = now - date;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(minutes / 60);
+            
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return `${minutes} min ago`;
+            if (hours < 24) return `${hours}h ago`;
+            return date.toLocaleDateString();
+        }
+
+        // Load data on page load
+        loadData();
+        
+        // Auto-refresh every 30 seconds
+        setInterval(loadData, 30000);
+    </script>
+</body>
+</html>

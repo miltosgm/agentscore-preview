@@ -1,0 +1,160 @@
+{
+  "lastUpdated": "2026-01-30T15:10:00Z",
+  "projects": [
+    { "id": "backlinku", "name": "Backlinku", "color": "#58a6ff" },
+    { "id": "agentscore", "name": "AgentScore", "color": "#a855f7" },
+    { "id": "general", "name": "General", "color": "#f0883e" }
+  ],
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Clone Backlinku Repo",
+      "description": "Analyzed Next.js codebase structure",
+      "project": "backlinku",
+      "status": "done",
+      "priority": "high",
+      "createdAt": "2026-01-30T08:49:00Z",
+      "completedAt": "2026-01-30T08:50:00Z"
+    },
+    {
+      "id": "2",
+      "title": "Analyze Tech Stack",
+      "description": "MUI, Supabase, Drizzle ORM, Stripe",
+      "project": "backlinku",
+      "status": "done",
+      "priority": "medium",
+      "createdAt": "2026-01-30T08:50:00Z",
+      "completedAt": "2026-01-30T08:55:00Z"
+    },
+    {
+      "id": "3",
+      "title": "Platform Strategy Decision",
+      "description": "Decided on Option 3: Umbrella rebrand",
+      "project": "agentscore",
+      "status": "done",
+      "priority": "high",
+      "createdAt": "2026-01-30T09:12:00Z",
+      "completedAt": "2026-01-30T09:15:00Z"
+    },
+    {
+      "id": "4",
+      "title": "Domain Name Search",
+      "description": "On hold - checked 600+ domains",
+      "project": "agentscore",
+      "status": "backlog",
+      "priority": "low",
+      "createdAt": "2026-01-30T09:15:00Z"
+    },
+    {
+      "id": "5",
+      "title": "Cyprus Developers Database",
+      "description": "24 developers compiled with Google reviews, websites, project counts",
+      "project": "agentscore",
+      "status": "done",
+      "priority": "medium",
+      "createdAt": "2026-01-30T13:15:00Z",
+      "completedAt": "2026-01-30T14:50:00Z"
+    },
+    {
+      "id": "6",
+      "title": "Database Schema v2",
+      "description": "Unified schema for agents, developers, agencies, reviews - deployed to Supabase",
+      "project": "agentscore",
+      "status": "done",
+      "priority": "high",
+      "createdAt": "2026-01-30T14:48:00Z",
+      "completedAt": "2026-01-30T15:00:00Z"
+    },
+    {
+      "id": "7",
+      "title": "Task Manager Dashboard",
+      "description": "Mission Control live at miltosgm.github.io/mission-control",
+      "project": "general",
+      "status": "done",
+      "priority": "high",
+      "createdAt": "2026-01-30T13:37:00Z",
+      "completedAt": "2026-01-30T14:17:00Z"
+    },
+    {
+      "id": "8",
+      "title": "UI Wireframes",
+      "description": "Homepage + Developer profile mockups",
+      "project": "agentscore",
+      "status": "done",
+      "priority": "high",
+      "createdAt": "2026-01-30T14:48:00Z",
+      "completedAt": "2026-01-30T14:52:00Z"
+    },
+    {
+      "id": "9",
+      "title": "ROI Calculator Component",
+      "description": "Interactive calculator with sliders, inputs, projected ROI",
+      "project": "backlinku",
+      "status": "done",
+      "priority": "medium",
+      "createdAt": "2026-01-30T08:51:00Z",
+      "completedAt": "2026-01-30T15:05:00Z"
+    },
+    {
+      "id": "10",
+      "title": "Trustpilot Widget",
+      "description": "3 variants (full/compact/mini), rating display, sample reviews",
+      "project": "backlinku",
+      "status": "done",
+      "priority": "medium",
+      "createdAt": "2026-01-30T08:51:00Z",
+      "completedAt": "2026-01-30T15:07:00Z"
+    },
+    {
+      "id": "11",
+      "title": "Social Proof Bar",
+      "description": "3 variants (bar/cards/minimal), animated counters, trust badges",
+      "project": "backlinku",
+      "status": "done",
+      "priority": "medium",
+      "createdAt": "2026-01-30T08:51:00Z",
+      "completedAt": "2026-01-30T15:10:00Z"
+    },
+    {
+      "id": "12",
+      "title": "Import Developers to Supabase",
+      "description": "24 Cyprus developers seeded into database",
+      "project": "agentscore",
+      "status": "done",
+      "priority": "high",
+      "createdAt": "2026-01-30T14:52:00Z",
+      "completedAt": "2026-01-30T15:02:00Z"
+    },
+    {
+      "id": "13",
+      "title": "Scrape Google Reviews",
+      "description": "Get detailed reviews for each developer",
+      "project": "agentscore",
+      "status": "backlog",
+      "priority": "medium",
+      "createdAt": "2026-01-30T14:52:00Z"
+    },
+    {
+      "id": "14",
+      "title": "Build AgentScore Frontend",
+      "description": "Implement the wireframed UI",
+      "project": "agentscore",
+      "status": "backlog",
+      "priority": "high",
+      "createdAt": "2026-01-30T15:10:00Z"
+    }
+  ],
+  "activity": [
+    { "time": "2026-01-30T15:10:00Z", "action": "Completed", "detail": "All 3 Backlinku components - ROI, Trustpilot, Social Proof" },
+    { "time": "2026-01-30T15:05:00Z", "action": "Pushed", "detail": "Feature branch feat/social-proof-components" },
+    { "time": "2026-01-30T15:02:00Z", "action": "Seeded", "detail": "24 Cyprus developers into Supabase" },
+    { "time": "2026-01-30T15:00:00Z", "action": "Deployed", "detail": "Schema v2 to Supabase - agents, developers, agencies, reviews" },
+    { "time": "2026-01-30T14:52:00Z", "action": "Completed", "detail": "UI wireframes - Homepage + Developer profile" },
+    { "time": "2026-01-30T14:50:00Z", "action": "Completed", "detail": "Database schema v2 for unified platform" },
+    { "time": "2026-01-30T14:17:00Z", "action": "Deployed", "detail": "Mission Control to GitHub Pages" },
+    { "time": "2026-01-30T13:58:00Z", "action": "Completed", "detail": "Mission Control dashboard is live!" },
+    { "time": "2026-01-30T13:15:00Z", "action": "Found", "detail": "50+ Cyprus developers with reviews" },
+    { "time": "2026-01-30T09:15:00Z", "action": "Decided", "detail": "Option 3: Umbrella rebrand" },
+    { "time": "2026-01-30T08:49:00Z", "action": "Cloned", "detail": "Backlinku repository" }
+  ]
+}
