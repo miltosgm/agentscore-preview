@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cold Leads - With Email Discussions</title>
+    <title>Cold Leads - With Email Discussions & Draft Replies</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; }
@@ -13,12 +13,14 @@
         .lead-card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         .lead-card.high { border-left: 5px solid #e74c3c; }
         .lead-card.medium { border-left: 5px solid #f39c12; }
+        .lead-card.lost { border-left: 5px solid #95a5a6; opacity: 0.7; }
         .lead-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
         .lead-name { font-size: 22px; font-weight: bold; color: #1a1a2e; }
         .lead-company { font-size: 16px; color: #e74c3c; font-weight: 600; }
         .badge { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; color: white; }
         .badge-high { background: #e74c3c; }
         .badge-medium { background: #f39c12; }
+        .badge-lost { background: #95a5a6; }
         .email-link { color: #3498db; font-size: 14px; display: block; margin: 5px 0; }
         .conversation { background: #f8f9fa; border-radius: 10px; padding: 20px; margin-top: 20px; }
         .conversation h3 { color: #1a1a2e; margin-bottom: 15px; font-size: 16px; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
@@ -26,70 +28,42 @@
         .email-block.outreach { background: #e8f4fd; border-left: 3px solid #3498db; }
         .email-block.reply { background: #e8fde8; border-left: 3px solid #27ae60; }
         .email-block.followup { background: #fff3e0; border-left: 3px solid #f39c12; }
+        .email-block.draft { background: #f3e8fd; border-left: 3px solid #9b59b6; }
         .email-meta { font-size: 12px; color: #666; margin-bottom: 8px; }
         .email-text { font-size: 14px; line-height: 1.6; color: #333; }
         .action-box { background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; padding: 15px; margin-top: 15px; }
         .action-box strong { color: #856404; }
+        .lost-box { background: #f8d7da; border: 2px solid #dc3545; border-radius: 8px; padding: 15px; margin-top: 15px; }
+        .lost-box strong { color: #721c24; }
         .section-title { margin: 40px 0 25px; color: #1a1a2e; font-size: 26px; border-bottom: 3px solid #e74c3c; padding-bottom: 10px; display: inline-block; }
+        .copy-btn { background: #9b59b6; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-size: 12px; margin-top: 10px; }
+        .copy-btn:hover { background: #8e44ad; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📧 Cold Lead Reactivation - Full Email Discussions</h1>
-        <p class="subtitle">Actual email threads from Aug-Sep 2024 that went cold</p>
+        <h1>📧 Cold Lead Reactivation - With Draft Replies</h1>
+        <p class="subtitle">Email threads from Aug-Sep 2024 • Draft follow-ups ready to send</p>
 
-        <h2 class="section-title">🔥 HIGH PRIORITY</h2>
+        <h2 class="section-title">❌ LEAD LOST</h2>
 
-        <!-- SWISSQUOTE -->
-        <div class="lead-card high">
+        <!-- SWISSQUOTE - LOST -->
+        <div class="lead-card lost">
             <div class="lead-header">
                 <div>
-                    <div class="lead-name">Andrew Vasileiou</div>
+                    <div class="lead-name" style="text-decoration: line-through;">Andrew Vasileiou</div>
                     <div class="lead-company">SwissQuote Capital Markets</div>
-                    <a class="email-link" href="mailto:andrew.vasileiou@swissquote.com">📧 andrew.vasileiou@swissquote.com</a>
-                    <span style="font-size: 13px; color: #666;">Title: Head of Sales - Business Development</span>
+                    <span style="font-size: 13px; color: #666;">Former: Head of Sales - Business Development</span>
                 </div>
-                <span class="badge badge-high">🔥 HOT LEAD</span>
+                <span class="badge badge-lost">❌ LEFT COMPANY</span>
             </div>
             
-            <div class="conversation">
-                <h3>📬 Email Thread (Aug 28 - Sep 2, 2024)</h3>
-                
-                <div class="email-block outreach">
-                    <div class="email-meta">📤 YOUR OUTREACH — Aug 28, 2024</div>
-                    <div class="email-text">
-                        "Hello Andrew,<br><br>
-                        I'm reaching out because I specialize in helping European fintech companies generate more qualified leads through both organic and paid strategies.<br><br>
-                        Recently, we helped an established Forex broker enter the Japanese markets through paid ads and affiliate marketing, and <strong>increase their qualified leads by 64% within 90 days.</strong><br><br>
-                        I'd love to do the same for you. Is that something you'd be interested in?"
-                    </div>
-                </div>
-
-                <div class="email-block followup">
-                    <div class="email-meta">📤 YOUR FOLLOW-UP — Sep 2, 2024 (11:18 AM)</div>
-                    <div class="email-text">
-                        "Hey Andrew, I'm sure you're busy and wanted to bump this up! Is there any way we can help with generating more leads?"
-                    </div>
-                </div>
-
-                <div class="email-block reply">
-                    <div class="email-meta">📥 HIS REPLY — Sep 2, 2024 (1:36 PM)</div>
-                    <div class="email-text">
-                        "Hi George<br><br>
-                        Thanks for reaching out.<br><br>
-                        <strong>Let me know when we can set up a call</strong> and you can discuss what your company has to offer and what we are looking for here at Swissquote.<br><br>
-                        regards<br>
-                        Andrew Vasileiou<br>
-                        Head of Sales - Business Development<br>
-                        Swissquote Capital Markets Limited"
-                    </div>
-                </div>
-            </div>
-
-            <div class="action-box">
-                <strong>⚠️ ACTION NEEDED:</strong> He literally asked for a call and it never happened! This is your hottest lead. Reach out immediately with available times.
+            <div class="lost-box">
+                <strong>⚠️ STATUS:</strong> Andrew Vasileiou no longer works at Swissquote. He's now at <strong>PU Prime</strong> as Team Lead Partnerships Manager. Consider reaching out to him at his new company, or find a new contact at Swissquote.
             </div>
         </div>
+
+        <h2 class="section-title">🔥 HIGH PRIORITY - Ready to Send</h2>
 
         <!-- XM.COM -->
         <div class="lead-card high">
@@ -104,25 +78,32 @@
             </div>
             
             <div class="conversation">
-                <h3>📬 Email Thread (Aug 28, 2024)</h3>
+                <h3>📬 Original Thread (Aug 28, 2024)</h3>
                 
-                <div class="email-block outreach">
-                    <div class="email-meta">📤 YOUR OUTREACH — "Quick Question" approach</div>
-                    <div class="email-text">
-                        Same cold email template as SwissQuote - highlighting lead generation expertise for European fintech companies.
-                    </div>
-                </div>
-
                 <div class="email-block reply">
                     <div class="email-meta">📥 THEIR REPLY — Aug 28, 2024 (2:36 PM)</div>
                     <div class="email-text">
-                        Responded to the outreach. XM is one of the largest forex brokers globally with massive marketing budgets. <strong>Cyprus-based = local advantage for Growth-onomics.</strong>
+                        Responded to the outreach. XM is one of the largest forex brokers globally with massive marketing budgets.
+                    </div>
+                </div>
+
+                <div class="email-block draft">
+                    <div class="email-meta">✉️ DRAFT REPLY — Ready to send</div>
+                    <div class="email-text">
+                        <strong>Subject: Re: Quick Question</strong><br><br>
+                        Hi Orestis,<br><br>
+                        I realize it's been a while since we last connected — time flies when you're deep in campaigns!<br><br>
+                        I wanted to circle back because we've had some strong results recently with forex brokers in the region, particularly around <strong>performance marketing and qualified lead generation</strong> for regulated markets.<br><br>
+                        Given XM's scale and Cyprus HQ, I think there could be some interesting synergies — especially if you're looking at expanding acquisition channels or improving lead quality in specific geos.<br><br>
+                        Would you be open to a quick 15-minute chat to see if there's a fit? I'm flexible on timing.<br><br>
+                        Best,<br>
+                        Miltos
                     </div>
                 </div>
             </div>
 
             <div class="action-box">
-                <strong>💡 WHY PRIORITY:</strong> Top-tier broker, huge marketing spend, Cyprus HQ means easy meetings. Perfect fit for Growth-onomics services.
+                <strong>💡 WHY PRIORITY:</strong> Top-tier broker, huge marketing spend, Cyprus HQ = easy meetings. Perfect fit.
             </div>
         </div>
 
@@ -138,25 +119,32 @@
             </div>
             
             <div class="conversation">
-                <h3>📬 Email Thread (Aug 28, 2024)</h3>
+                <h3>📬 Original Thread (Aug 28, 2024)</h3>
                 
-                <div class="email-block outreach">
-                    <div class="email-meta">📤 YOUR OUTREACH — "Quick Question" approach</div>
-                    <div class="email-text">
-                        Cold email about lead generation for European fintech.
-                    </div>
-                </div>
-
                 <div class="email-block reply">
                     <div class="email-meta">📥 HER REPLY — Aug 28, 2024 (4:16 PM)</div>
                     <div class="email-text">
-                        Engaged with the outreach. InstaForex is known for aggressive marketing spend in the forex space.
+                        Engaged with the outreach. InstaForex is known for aggressive marketing spend.
+                    </div>
+                </div>
+
+                <div class="email-block draft">
+                    <div class="email-meta">✉️ DRAFT REPLY — Ready to send</div>
+                    <div class="email-text">
+                        <strong>Subject: Re: Quick Question</strong><br><br>
+                        Hi Anna,<br><br>
+                        I hope this finds you well! I know it's been some time since we exchanged emails — I wanted to reconnect.<br><br>
+                        We've been working with several forex brokers on <strong>performance-driven lead generation</strong>, combining paid acquisition with affiliate strategies. One recent campaign delivered a <strong>64% increase in qualified leads</strong> within 90 days for a broker entering new markets.<br><br>
+                        I'd love to explore if something similar could work for InstaForex EU, especially given your strong brand presence.<br><br>
+                        Would you have 15 minutes for a quick call next week?<br><br>
+                        Best regards,<br>
+                        Miltos
                     </div>
                 </div>
             </div>
 
             <div class="action-box">
-                <strong>💡 WHY PRIORITY:</strong> Large broker with history of working with agencies. Known for substantial marketing budgets.
+                <strong>💡 WHY PRIORITY:</strong> Large broker, history of agency partnerships, substantial marketing budgets.
             </div>
         </div>
 
@@ -172,47 +160,70 @@
             </div>
             
             <div class="conversation">
-                <h3>📬 Email Thread (Aug 27, 2024)</h3>
+                <h3>📬 Original Thread (Aug 27, 2024)</h3>
                 
-                <div class="email-block outreach">
-                    <div class="email-meta">📤 YOUR OUTREACH — "Quick Question" approach</div>
-                    <div class="email-text">
-                        Cold email about lead generation services.
-                    </div>
-                </div>
-
                 <div class="email-block reply">
                     <div class="email-meta">📥 HIS REPLY — Aug 27, 2024 (1:33 PM)</div>
                     <div class="email-text">
-                        "Hey" — brief but engaged response showing interest.
+                        "Hey" — brief but engaged response.
+                    </div>
+                </div>
+
+                <div class="email-block draft">
+                    <div class="email-meta">✉️ DRAFT REPLY — Ready to send</div>
+                    <div class="email-text">
+                        <strong>Subject: Re: Quick Question</strong><br><br>
+                        Hey Yossi,<br><br>
+                        Thanks for your reply back then — apologies for the delayed follow-up on my end!<br><br>
+                        I've been thinking about Leverate's unique position as a B2B fintech serving brokers. We specialize in <strong>lead generation and performance marketing</strong> for fintech companies, and I see two potential angles:<br><br>
+                        1. Helping Leverate directly attract more broker clients<br>
+                        2. Potentially offering our services as a value-add to your existing broker network<br><br>
+                        Either way, I'd love to explore if there's a fit. Would you be open to a quick call?<br><br>
+                        Cheers,<br>
+                        Miltos
                     </div>
                 </div>
             </div>
 
             <div class="action-box">
-                <strong>💡 WHY STRATEGIC:</strong> Leverate is a B2B fintech that provides trading platforms TO other brokers. If you win them, you could potentially get introductions to their broker clients!
+                <strong>💡 WHY STRATEGIC:</strong> B2B play — win Leverate, potentially get intros to their broker clients!
             </div>
         </div>
 
-        <h2 class="section-title">⚡ MEDIUM PRIORITY</h2>
+        <h2 class="section-title">⚡ MEDIUM PRIORITY - Ready to Send</h2>
 
         <!-- OCTAFX -->
         <div class="lead-card medium">
             <div class="lead-header">
                 <div>
                     <div class="lead-name">Ana Larson</div>
-                    <div class="lead-company">OctaFX</div>
+                    <div class="lead-company">OctaFX (now Octa)</div>
                     <a class="email-link" href="mailto:a.larson@octafx.com">📧 a.larson@octafx.com</a>
                 </div>
                 <span class="badge badge-medium">MEDIUM</span>
             </div>
             
             <div class="conversation">
-                <h3>📬 Email Thread (Aug 27-28, 2024)</h3>
+                <h3>📬 Original Thread (Aug 27-28, 2024)</h3>
+                
                 <div class="email-block reply">
                     <div class="email-meta">📥 HER REPLY</div>
                     <div class="email-text">
-                        "Hello" — Conversation was started. OctaFX is a growing broker with good brand recognition.
+                        "Hello" — Conversation was started.
+                    </div>
+                </div>
+
+                <div class="email-block draft">
+                    <div class="email-meta">✉️ DRAFT REPLY — Ready to send</div>
+                    <div class="email-text">
+                        <strong>Subject: Re: Quick Question</strong><br><br>
+                        Hi Ana,<br><br>
+                        I hope you're doing well! I noticed we started a conversation a while back but it slipped through the cracks on my end — my apologies.<br><br>
+                        I wanted to reconnect because we've been helping forex brokers with <strong>performance marketing and lead acquisition</strong>, and I thought there might be an opportunity with Octa.<br><br>
+                        We recently helped a broker increase qualified leads by 64% in 90 days through a combination of paid ads and affiliate marketing.<br><br>
+                        Would you be the right person to discuss marketing partnerships, or could you point me in the right direction?<br><br>
+                        Thanks,<br>
+                        Miltos
                     </div>
                 </div>
             </div>
@@ -230,11 +241,25 @@
             </div>
             
             <div class="conversation">
-                <h3>📬 Email Thread (Aug 28, 2024)</h3>
+                <h3>📬 Original Thread (Aug 28, 2024)</h3>
+                
                 <div class="email-block reply">
                     <div class="email-meta">📥 HIS REPLY — Aug 28, 2024 (12:55 PM)</div>
                     <div class="email-text">
-                        Responded to outreach. Uptrader is a B2B trading platform provider — good fit for SEO/content services.
+                        Responded to outreach. Uptrader is a B2B trading platform provider.
+                    </div>
+                </div>
+
+                <div class="email-block draft">
+                    <div class="email-meta">✉️ DRAFT REPLY — Ready to send</div>
+                    <div class="email-text">
+                        <strong>Subject: Re: Quick Question</strong><br><br>
+                        Hi Nick,<br><br>
+                        Thanks for replying to my earlier email — I'm circling back after some time.<br><br>
+                        As a B2B trading platform provider, I imagine Uptrader is always looking to attract more broker clients. We specialize in <strong>lead generation and content marketing</strong> for fintech companies, and I think there could be some interesting opportunities — whether it's SEO/content to drive inbound leads, or performance campaigns targeting brokers.<br><br>
+                        Would you be open to a brief call to explore?<br><br>
+                        Best,<br>
+                        Miltos
                     </div>
                 </div>
             </div>
@@ -252,27 +277,42 @@
             </div>
             
             <div class="conversation">
-                <h3>📬 Email Thread (Aug 28, 2024)</h3>
+                <h3>📬 Original Thread (Aug 28, 2024)</h3>
+                
                 <div class="email-block reply">
                     <div class="email-meta">📥 THEIR REPLY — Aug 28, 2024 (3:25 PM)</div>
                     <div class="email-text">
-                        Responded to outreach. Trading education space — different angle, could be content partnership.
+                        Responded to outreach. Trading education space.
+                    </div>
+                </div>
+
+                <div class="email-block draft">
+                    <div class="email-meta">✉️ DRAFT REPLY — Ready to send</div>
+                    <div class="email-text">
+                        <strong>Subject: Re: Quick Question</strong><br><br>
+                        Hi Manswi,<br><br>
+                        I hope you're well! I wanted to follow up on our conversation from last year.<br><br>
+                        We've been working with companies in the trading/fintech space on <strong>content marketing and lead generation</strong>. For an education-focused business like Educate2Trade, I see potential in SEO-driven content that attracts aspiring traders and converts them into students.<br><br>
+                        Would you be interested in exploring a potential partnership?<br><br>
+                        Best regards,<br>
+                        Miltos
                     </div>
                 </div>
             </div>
         </div>
 
         <div style="background: #1a1a2e; color: white; padding: 25px; border-radius: 12px; margin-top: 40px;">
-            <h3 style="margin-bottom: 15px;">📋 Recommended Next Steps</h3>
+            <h3 style="margin-bottom: 15px;">📋 Updated Action Plan</h3>
             <ol style="margin-left: 20px; line-height: 2;">
-                <li><strong>TODAY:</strong> Email Andrew at SwissQuote — he asked for a call 5 months ago!</li>
-                <li><strong>This week:</strong> Reach out to XM.com, InstaForex, Leverate</li>
-                <li><strong>Next week:</strong> Follow up on medium priority leads</li>
+                <li><s style="color: #95a5a6;">SwissQuote — Andrew left (now at PU Prime)</s></li>
+                <li><strong>This week:</strong> Send draft emails to XM.com, InstaForex, Leverate</li>
+                <li><strong>Next week:</strong> Follow up on OctaFX, Uptrader, Educate2Trade</li>
+                <li><strong>Optional:</strong> Reach out to Andrew at PU Prime if interested</li>
             </ol>
         </div>
 
         <p style="margin-top: 30px; color: #666; font-size: 13px; text-align: center;">
-            Generated by Clawdbot • 2026-01-31 • Source: mg@growth-onomics.com LEADS folder
+            Updated by Clawdbot • 2026-01-31 • Draft replies added
         </p>
     </div>
 </body>
