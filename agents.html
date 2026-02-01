@@ -229,7 +229,7 @@
             const pageAgents = filteredAgents.slice(start, end);
 
             document.getElementById('results-count').textContent = 
-                `Showing ${start + 1}-${Math.min(end, filteredAgents.length)} of ${filteredAgents.length} agencies`;
+                `Showing ${start + 1}-${Math.min(end, filteredAgents.length)} of ${filteredAgents.length} results`;
 
             if (currentView === 'grid') {
                 container.className = 'grid md:grid-cols-2 gap-4';
