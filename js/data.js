@@ -35,7 +35,7 @@ async function loadAgentData() {
     // Fallback to local JSON
     try {
         console.log('📁 Loading agents from local JSON...');
-        const response = await fetch('../all-agents-with-reviews.json');
+        const response = await fetch('./all-agents-with-reviews.json');
         const rawAgents = await response.json();
         agentCache = rawAgents.map(agent => enhanceAgent(agent));
         console.log(`✅ Loaded ${agentCache.length} agents from JSON`);
