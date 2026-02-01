@@ -99,14 +99,20 @@ function enhanceAgent(agent) {
     
     return {
         name: agent.name,
+        type: agent.type || 'agent',
         location: agent.location,
         url: agent.url,
+        website: agent.website,
         ads: agent.ads || 0,
         rating: Math.round(rating * 10) / 10,
         reviewCount: reviewCount,
+        established: agent.established,
+        description: agent.description,
+        phone: agent.phone,
+        featured_project: agent.featured_project,
         sampleReview: agent.google_reviews?.[0] || null,
         services: generateServices(nameHash),
-        tags: generateTags(nameHash, agent.location)
+        tags: generateTags(nameHash, agent.location, agent.type)
     };
 }
 
@@ -144,13 +150,19 @@ function generateServices(hash) {
 }
 
 /**
- * Generate tags based on hash and location
+ * Generate tags based on hash, location, and type
  */
-function generateTags(hash, location) {
+function generateTags(hash, location, type) {
     const tags = [];
-    if (hash % 3 === 0) tags.push('Expat Friendly');
-    if (hash % 4 === 0) tags.push('Luxury Properties');
-    if (hash % 5 === 0) tags.push('New Builds');
+    if (type === 'developer') {
+        tags.push('Developer');
+        if (hash % 2 === 0) tags.push('New Projects');
+        if (hash % 3 === 0) tags.push('Luxury');
+    } else {
+        if (hash % 3 === 0) tags.push('Expat Friendly');
+        if (hash % 4 === 0) tags.push('Luxury Properties');
+        if (hash % 5 === 0) tags.push('New Builds');
+    }
     if (location === 'Limassol' && hash % 2 === 0) tags.push('Beachfront');
     if (location === 'Paphos' && hash % 3 === 0) tags.push('Retirement Specialist');
     return tags;
