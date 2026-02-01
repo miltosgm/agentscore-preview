@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgentScore - Find Trusted Real Estate Agents & Developers in Cyprus</title>
+    <title>Reviews Realty - Find Trusted Real Estate Agents & Developers in Cyprus</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,8 +41,8 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <a href="index.html" class="flex items-center">
-                        <span class="text-2xl font-bold text-primary">Agent</span>
-                        <span class="text-2xl font-bold text-gray-800">Score</span>
+                        <span class="text-2xl font-bold text-primary">Reviews</span>
+                        <span class="text-2xl font-bold text-gray-800">Realty</span>
                     </a>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
@@ -201,7 +201,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-3xl font-bold text-white mb-4">Are you a Real Estate Agent or Developer?</h2>
             <p class="text-blue-100 mb-8 max-w-2xl mx-auto">
-                Claim your profile on AgentScore to respond to reviews, update your information, and showcase your reputation.
+                Claim your profile on Reviews Realty to respond to reviews, update your information, and showcase your reputation.
             </p>
             <button class="bg-white text-primary px-8 py-3 rounded-lg hover:bg-gray-100 transition font-medium">
                 Claim Your Profile →
@@ -215,8 +215,8 @@
             <div class="grid md:grid-cols-4 gap-8">
                 <div>
                     <div class="flex items-center mb-4">
-                        <span class="text-xl font-bold text-white">Agent</span>
-                        <span class="text-xl font-bold text-primary">Score</span>
+                        <span class="text-xl font-bold text-white">Reviews</span>
+                        <span class="text-xl font-bold text-primary">Realty</span>
                     </div>
                     <p class="text-sm">
                         The trusted platform for finding and reviewing real estate agents and developers in Cyprus.
@@ -248,13 +248,13 @@
                 </div>
             </div>
             <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
-                © 2025 AgentScore. All rights reserved.
+                © 2026 Reviews Realty. All rights reserved.
             </div>
         </div>
     </footer>
 
-    <script src="js/data.js?v=2"></script>
-    <script src="js/app.js?v=2"></script>
+    <script src="js/data.js?v=3"></script>
+    <script src="js/app.js?v=3"></script>
     <script>
         // Mobile menu toggle
         document.getElementById('mobile-menu-btn').addEventListener('click', function() {
@@ -428,14 +428,14 @@
             try {
                 let result;
                 if (authMode === 'signup') {
-                    result = await AgentScore.auth.signUp(email, password);
+                    result = await ReviewsRealty.auth.signUp(email, password);
                     if (!result.error) {
                         msgEl.textContent = 'Check your email to confirm your account!';
                         msgEl.classList.add('text-green-500');
                         return;
                     }
                 } else {
-                    result = await AgentScore.auth.signIn(email, password);
+                    result = await ReviewsRealty.auth.signIn(email, password);
                 }
                 
                 if (result.error) {
@@ -461,7 +461,7 @@
             const msgEl = document.getElementById('auth-message');
             msgEl.classList.remove('hidden', 'text-red-500', 'text-green-500');
             
-            const { error } = await AgentScore.auth.signInWithMagicLink(email);
+            const { error } = await ReviewsRealty.auth.signInWithMagicLink(email);
             if (error) {
                 msgEl.textContent = error.message;
                 msgEl.classList.add('text-red-500');
@@ -472,14 +472,14 @@
         }
         
         async function updateAuthUI() {
-            const user = await AgentScore.auth.getUser();
+            const user = await ReviewsRealty.auth.getUser();
             const btn = document.getElementById('auth-btn');
             
             if (user) {
                 btn.textContent = user.email.split('@')[0];
                 btn.onclick = async () => {
                     if (confirm('Sign out?')) {
-                        await AgentScore.auth.signOut();
+                        await ReviewsRealty.auth.signOut();
                         updateAuthUI();
                     }
                 };
@@ -493,8 +493,8 @@
         document.addEventListener('DOMContentLoaded', updateAuthUI);
         
         // Listen for auth changes
-        if (window.AgentScore) {
-            AgentScore.auth.onAuthStateChange((event, session) => {
+        if (window.ReviewsRealty) {
+            ReviewsRealty.auth.onAuthStateChange((event, session) => {
                 updateAuthUI();
             });
         }

@@ -1,4 +1,4 @@
-// Supabase Configuration for AgentScore
+// Supabase Configuration for Reviews Realty
 const SUPABASE_URL = 'https://sqjvwnuqbvnfvftvgzdz.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_LxH-UyL1WE8Y8BOthTQkaA_IOfpdMZ7';
 
@@ -160,4 +160,6 @@ const db = {
 };
 
 // Export for use in other scripts
-window.AgentScore = { supabase, auth, db };
+window.ReviewsRealty = { supabase, auth, db };
+// Legacy alias for backwards compatibility
+window.AgentScore = window.ReviewsRealty;

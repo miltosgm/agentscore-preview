@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agent Profile - AgentScore</title>
+    <title>Agent Profile - Reviews Realty</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -307,7 +307,7 @@
                 <span class="text-xl font-bold text-white">Agent</span>
                 <span class="text-xl font-bold text-primary">Score</span>
             </div>
-            <p class="text-sm">© 2025 AgentScore. All rights reserved.</p>
+            <p class="text-sm">© 2025 Reviews Realty. All rights reserved.</p>
         </div>
     </footer>
 
@@ -323,11 +323,11 @@
 
         document.addEventListener('DOMContentLoaded', async function() {
             // Check auth state
-            if (window.AgentScore) {
-                currentUser = await window.AgentScore.auth.getUser();
+            if (window.Reviews Realty) {
+                currentUser = await window.Reviews Realty.auth.getUser();
                 updateAuthUI();
                 
-                window.AgentScore.auth.onAuthStateChange((event, session) => {
+                window.Reviews Realty.auth.onAuthStateChange((event, session) => {
                     currentUser = session?.user || null;
                     updateAuthUI();
                 });
@@ -356,7 +356,7 @@
             }
 
             // Update page
-            document.title = `${currentAgent.name} - AgentScore`;
+            document.title = `${currentAgent.name} - Reviews Realty`;
             
             // Update breadcrumb
             document.getElementById('breadcrumb-name').textContent = currentAgent.name;
@@ -420,18 +420,18 @@
 
         async function loadReviews() {
             // Try Supabase first
-            if (window.AgentScore && currentAgent.id) {
+            if (window.Reviews Realty && currentAgent.id) {
                 try {
-                    const { data, error } = await window.AgentScore.db.getReviews(currentAgent.id);
+                    const { data, error } = await window.Reviews Realty.db.getReviews(currentAgent.id);
                     if (!error && data && data.length > 0) {
                         agentReviews = data.map(r => ({
                             id: r.id,
-                            reviewer: r.reviewer_name || 'AgentScore User',
+                            reviewer: r.reviewer_name || 'Reviews Realty User',
                             rating: r.rating,
                             date: r.created_at,
                             title: r.title,
                             text: r.content,
-                            source: 'AgentScore'
+                            source: 'Reviews Realty'
                         }));
                         renderRatingBreakdown(agentReviews);
                         renderReviews(agentReviews);
@@ -660,7 +660,7 @@
             submitBtn.textContent = 'Submitting...';
             
             try {
-                const { data, error } = await window.AgentScore.db.createReview({
+                const { data, error } = await window.Reviews Realty.db.createReview({
                     agentId: currentAgent.id,
                     rating: selectedRating,
                     title,
@@ -731,9 +731,9 @@
             try {
                 let result;
                 if (authMode === 'signin') {
-                    result = await window.AgentScore.auth.signIn(email, password);
+                    result = await window.Reviews Realty.auth.signIn(email, password);
                 } else {
-                    result = await window.AgentScore.auth.signUp(email, password);
+                    result = await window.Reviews Realty.auth.signUp(email, password);
                 }
                 
                 if (result.error) throw result.error;
@@ -758,7 +758,7 @@
             }
             
             try {
-                const { error } = await window.AgentScore.auth.signInWithMagicLink(email);
+                const { error } = await window.Reviews Realty.auth.signInWithMagicLink(email);
                 if (error) throw error;
                 
                 errorEl.textContent = 'Check your email for the login link!';
