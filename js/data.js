@@ -5,7 +5,7 @@
 
 // Cache for loaded agents
 let agentCache = null;
-let useSupabase = true;
+let useSupabase = false; // Using JSON data with 20 real agents & developers
 
 /**
  * Load agent data - tries Supabase first, falls back to JSON
