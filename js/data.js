@@ -36,12 +36,16 @@ async function loadAgentData() {
     try {
         console.log('📁 Loading agents from local JSON...');
         const response = await fetch('/all-agents-with-reviews.json');
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
         const rawAgents = await response.json();
+        console.log('📋 Raw agents loaded:', rawAgents.length);
         agentCache = rawAgents.map(agent => enhanceAgent(agent));
         console.log(`✅ Loaded ${agentCache.length} agents from JSON`);
         return agentCache;
     } catch (error) {
-        console.error('Error loading agent data:', error);
+        console.error('❌ Error loading agent data:', error);
         return getFallbackData();
     }
 }
