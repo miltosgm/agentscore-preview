@@ -317,83 +317,83 @@
     <script src="js/data.js?v=2"></script>
     <script src="js/app.js?v=2"></script>
     <script>
-        let currentAgent = null;
-        let agentReviews = [];
+        // Developer data
+        const developerData = [
+            { name: "Limassol Greens", slug: "limassol-greens", location: "Limassol", rating: 5.0, projects: 728, description: "Resort complex with golf courses and luxury properties" },
+            { name: "Ajami Group", slug: "ajami-group", location: "Limassol", rating: 4.7, projects: 340, description: "30+ years in Cyprus real estate" },
+            { name: "Cyprus Developers Alliance", slug: "cyprus-developers-alliance", location: "Limassol", rating: 5.0, projects: 9000, description: "Alliance of 43 developers" },
+            { name: "Prime Property Group (bbf)", slug: "prime-property-bbf", location: "Limassol", rating: 5.0, projects: 150, description: "Operations in Cyprus, Greece, Portugal, Canada" },
+            { name: "DTA Group", slug: "dta-group", location: "Limassol", rating: 5.0, projects: 13, description: "Luxury real estate and renewable energy" },
+            { name: "Leptos Estates", slug: "leptos-estates", location: "Paphos", rating: 4.2, projects: 400, description: "Leading developer since 1960" }
+        ];
+        
+        let currentDeveloper = null;
+        let developerReviews = [];
         let selectedRating = 0;
         let currentUser = null;
         let authMode = 'signin';
 
         document.addEventListener('DOMContentLoaded', async function() {
             // Check auth state
-            if (window.Reviews Realty) {
-                currentUser = await window.Reviews Realty.auth.getUser();
+            if (window.ReviewsRealty) {
+                currentUser = await window.ReviewsRealty.auth.getUser();
                 updateAuthUI();
                 
-                window.Reviews Realty.auth.onAuthStateChange((event, session) => {
+                window.ReviewsRealty.auth.onAuthStateChange((event, session) => {
                     currentUser = session?.user || null;
                     updateAuthUI();
                 });
             }
 
             const params = new URLSearchParams(window.location.search);
-            const agentId = params.get('id');
+            const developerId = params.get('id');
 
-            if (!agentId) {
-                window.location.href = 'agents.html';
+            if (!developerId) {
+                window.location.href = 'developers.html';
                 return;
             }
 
-            // Try to load agent (supports both UUID and name)
-            currentAgent = await loadAgentById(agentId);
+            // Find developer by slug
+            currentDeveloper = developerData.find(d => d.slug === developerId);
             
-            if (!currentAgent) {
-                // Fallback: load all and search by name
-                const agents = await loadAgentData();
-                currentAgent = agents.find(a => a.name === agentId);
-            }
-
-            if (!currentAgent) {
-                window.location.href = 'agents.html';
+            if (!currentDeveloper) {
+                window.location.href = 'developers.html';
                 return;
             }
 
             // Update page
-            document.title = `${currentAgent.name} - Reviews Realty`;
+            document.title = `${currentDeveloper.name} - Reviews Realty`;
             
             // Update breadcrumb
-            document.getElementById('breadcrumb-name').textContent = currentAgent.name;
-            document.getElementById('breadcrumb-city').textContent = currentAgent.location;
+            document.getElementById('breadcrumb-name').textContent = currentDeveloper.name;
+            document.getElementById('breadcrumb-city').textContent = currentDeveloper.location;
             document.getElementById('breadcrumb-city').onclick = () => {
-                window.location.href = `agents.html?city=${currentAgent.location}`;
+                window.location.href = `developers.html?city=${currentDeveloper.location}`;
             };
 
             // Update header
-            document.getElementById('agent-logo').textContent = currentAgent.name.charAt(0).toUpperCase();
-            document.getElementById('agent-name').textContent = currentAgent.name;
-            document.getElementById('agent-location').querySelector('span').textContent = currentAgent.location + ', Cyprus';
-            document.getElementById('agent-rating').textContent = currentAgent.rating.toFixed(1);
-            document.getElementById('agent-stars').innerHTML = renderStars(currentAgent.rating);
-            document.getElementById('agent-review-count').textContent = `Based on ${currentAgent.reviewCount} reviews`;
+            document.getElementById('agent-logo').textContent = currentDeveloper.name.charAt(0).toUpperCase();
+            document.getElementById('agent-name').textContent = currentDeveloper.name;
+            document.getElementById('agent-location').querySelector('span').textContent = currentDeveloper.location + ', Cyprus';
+            document.getElementById('agent-rating').textContent = currentDeveloper.rating.toFixed(1);
+            document.getElementById('agent-stars').innerHTML = renderStars(currentDeveloper.rating);
+            document.getElementById('agent-review-count').textContent = `0 reviews`;
 
-            // Website
-            document.getElementById('agent-website').href = currentAgent.url;
-            document.getElementById('sidebar-website').href = currentAgent.url;
-            try {
-                document.getElementById('sidebar-website').textContent = new URL(currentAgent.url).hostname;
-            } catch {
-                document.getElementById('sidebar-website').textContent = currentAgent.url;
-            }
+            // Website (placeholder)
+            document.getElementById('agent-website').href = '#';
+            document.getElementById('sidebar-website').href = '#';
+            document.getElementById('sidebar-website').textContent = 'Coming soon';
 
             // Sidebar
-            document.getElementById('sidebar-listings').textContent = currentAgent.ads + ' active listings';
-            document.getElementById('sidebar-location').textContent = currentAgent.location + ', Cyprus';
+            document.getElementById('sidebar-listings').textContent = (currentDeveloper.projects || 0) + ' projects';
+            document.getElementById('sidebar-location').textContent = currentDeveloper.location + ', Cyprus';
 
             // Load reviews from Supabase or generate mock
             await loadReviews();
             
             // Sort handler
             document.getElementById('review-sort').addEventListener('change', function() {
-                const sorted = [...agentReviews];
+                const sorted = [...developerReviews];
                 switch (this.value) {
                     case 'recent':
                         sorted.sort((a, b) => new Date(b.date || b.created_at) - new Date(a.date || a.created_at));
@@ -421,12 +421,17 @@
         }
 
         async function loadReviews() {
-            // Try Supabase first
-            if (window.Reviews Realty && currentAgent.id) {
+            // For now, developers don't have reviews - show empty state
+            developerReviews = [];
+            renderReviews(developerReviews);
+            return;
+            
+            // Try Supabase first (disabled for now)
+            if (false && window.ReviewsRealty && currentDeveloper.id) {
                 try {
-                    const { data, error } = await window.Reviews Realty.db.getReviews(currentAgent.id);
+                    const { data, error } = await window.ReviewsRealty.db.getReviews(currentDeveloper.id);
                     if (!error && data && data.length > 0) {
-                        agentReviews = data.map(r => ({
+                        developerReviews = data.map(r => ({
                             id: r.id,
                             reviewer: r.reviewer_name || 'Reviews Realty User',
                             rating: r.rating,
@@ -435,8 +440,8 @@
                             text: r.content,
                             source: 'Reviews Realty'
                         }));
-                        renderRatingBreakdown(agentReviews);
-                        renderReviews(agentReviews);
+                        renderRatingBreakdown(developerReviews);
+                        renderReviews(developerReviews);
                         return;
                     }
                 } catch (err) {
@@ -445,9 +450,9 @@
             }
             
             // Fallback to mock reviews
-            agentReviews = generateMockReviews(currentAgent);
-            renderRatingBreakdown(agentReviews);
-            renderReviews(agentReviews);
+            developerReviews = generateMockReviews(currentAgent);
+            renderRatingBreakdown(developerReviews);
+            renderReviews(developerReviews);
         }
 
         function generateMockReviews(agent) {
@@ -662,8 +667,8 @@
             submitBtn.textContent = 'Submitting...';
             
             try {
-                const { data, error } = await window.Reviews Realty.db.createReview({
-                    agentId: currentAgent.id,
+                const { data, error } = await window.ReviewsRealty.db.createReview({
+                    agentId: currentDeveloper.id,
                     rating: selectedRating,
                     title,
                     content
@@ -733,9 +738,9 @@
             try {
                 let result;
                 if (authMode === 'signin') {
-                    result = await window.Reviews Realty.auth.signIn(email, password);
+                    result = await window.ReviewsRealty.auth.signIn(email, password);
                 } else {
-                    result = await window.Reviews Realty.auth.signUp(email, password);
+                    result = await window.ReviewsRealty.auth.signUp(email, password);
                 }
                 
                 if (result.error) throw result.error;
@@ -760,7 +765,7 @@
             }
             
             try {
-                const { error } = await window.Reviews Realty.auth.signInWithMagicLink(email);
+                const { error } = await window.ReviewsRealty.auth.signInWithMagicLink(email);
                 if (error) throw error;
                 
                 errorEl.textContent = 'Check your email for the login link!';
