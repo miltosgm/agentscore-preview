@@ -375,9 +375,11 @@
             document.getElementById('agent-logo').textContent = currentDeveloper.name.charAt(0).toUpperCase();
             document.getElementById('agent-name').textContent = currentDeveloper.name;
             document.getElementById('agent-location').querySelector('span').textContent = currentDeveloper.location + ', Cyprus';
-            document.getElementById('agent-rating').textContent = currentDeveloper.rating.toFixed(1);
-            document.getElementById('agent-stars').innerHTML = renderStars(currentDeveloper.rating);
-            document.getElementById('agent-review-count').textContent = `0 reviews`;
+            
+            // Show "No reviews yet" instead of fake rating
+            document.getElementById('agent-rating').textContent = '—';
+            document.getElementById('agent-stars').innerHTML = '<span class="text-gray-400">No reviews yet</span>';
+            document.getElementById('agent-review-count').textContent = `Be the first to review ${currentDeveloper.name}`;
 
             // Website (placeholder)
             document.getElementById('agent-website').href = '#';
