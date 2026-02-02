@@ -337,23 +337,36 @@
 
             const params = new URLSearchParams(window.location.search);
             const agentId = params.get('id');
+            console.log('Loading agent:', agentId);
 
             if (!agentId) {
+                console.log('No agent ID provided');
                 window.location.href = 'agents.html';
                 return;
             }
 
-            // Try to load agent (supports both UUID and name)
-            currentAgent = await loadAgentById(agentId);
-            
-            if (!currentAgent) {
-                // Fallback: load all and search by name
-                const agents = await loadAgentData();
-                currentAgent = agents.find(a => a.name === agentId);
-            }
+            try {
+                // Try to load agent (supports both UUID and name)
+                currentAgent = await loadAgentById(agentId);
+                console.log('loadAgentById result:', currentAgent);
+                
+                if (!currentAgent) {
+                    // Fallback: load all and search by name
+                    console.log('Trying fallback: loading all agents');
+                    const agents = await loadAgentData();
+                    console.log('Loaded agents:', agents.length);
+                    currentAgent = agents.find(a => a.name === agentId);
+                    console.log('Found agent:', currentAgent);
+                }
 
-            if (!currentAgent) {
-                window.location.href = 'agents.html';
+                if (!currentAgent) {
+                    console.log('Agent not found, redirecting');
+                    window.location.href = 'agents.html';
+                    return;
+                }
+            } catch (error) {
+                console.error('Error loading agent:', error);
+                alert('Error loading agent: ' + error.message);
                 return;
             }
 
