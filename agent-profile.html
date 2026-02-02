@@ -325,11 +325,11 @@
 
         document.addEventListener('DOMContentLoaded', async function() {
             // Check auth state
-            if (window.Reviews Realty) {
-                currentUser = await window.Reviews Realty.auth.getUser();
+            if (window.ReviewsRealty) {
+                currentUser = await window.ReviewsRealty.auth.getUser();
                 updateAuthUI();
                 
-                window.Reviews Realty.auth.onAuthStateChange((event, session) => {
+                window.ReviewsRealty.auth.onAuthStateChange((event, session) => {
                     currentUser = session?.user || null;
                     updateAuthUI();
                 });
@@ -435,9 +435,9 @@
 
         async function loadReviews() {
             // Try Supabase first
-            if (window.Reviews Realty && currentAgent.id) {
+            if (window.ReviewsRealty && currentAgent.id) {
                 try {
-                    const { data, error } = await window.Reviews Realty.db.getReviews(currentAgent.id);
+                    const { data, error } = await window.ReviewsRealty.db.getReviews(currentAgent.id);
                     if (!error && data && data.length > 0) {
                         agentReviews = data.map(r => ({
                             id: r.id,
@@ -675,7 +675,7 @@
             submitBtn.textContent = 'Submitting...';
             
             try {
-                const { data, error } = await window.Reviews Realty.db.createReview({
+                const { data, error } = await window.ReviewsRealty.db.createReview({
                     agentId: currentAgent.id,
                     rating: selectedRating,
                     title,
@@ -746,9 +746,9 @@
             try {
                 let result;
                 if (authMode === 'signin') {
-                    result = await window.Reviews Realty.auth.signIn(email, password);
+                    result = await window.ReviewsRealty.auth.signIn(email, password);
                 } else {
-                    result = await window.Reviews Realty.auth.signUp(email, password);
+                    result = await window.ReviewsRealty.auth.signUp(email, password);
                 }
                 
                 if (result.error) throw result.error;
@@ -773,7 +773,7 @@
             }
             
             try {
-                const { error } = await window.Reviews Realty.auth.signInWithMagicLink(email);
+                const { error } = await window.ReviewsRealty.auth.signInWithMagicLink(email);
                 if (error) throw error;
                 
                 errorEl.textContent = 'Check your email for the login link!';

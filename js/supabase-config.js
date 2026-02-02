@@ -1,4 +1,9 @@
 // Supabase Configuration for Reviews Realty
+// Prevent duplicate initialization
+if (typeof window.ReviewsRealty !== 'undefined') {
+    console.log('ReviewsRealty already initialized, skipping');
+} else {
+
 const SUPABASE_URL = 'https://sqjvwnuqbvnfvftvgzdz.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_LxH-UyL1WE8Y8BOthTQkaA_IOfpdMZ7';
 
@@ -163,3 +168,5 @@ const db = {
 window.ReviewsRealty = { supabase, auth, db };
 // Legacy alias for backwards compatibility
 window.AgentScore = window.ReviewsRealty;
+
+} // End initialization check
