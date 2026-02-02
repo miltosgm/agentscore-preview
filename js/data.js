@@ -35,7 +35,7 @@ async function loadAgentData() {
     // Fallback to local JSON
     try {
         console.log('📁 Loading agents from local JSON...');
-        const response = await fetch('/all-agents-with-reviews.json');
+        const response = await fetch('./all-agents-with-reviews.json');
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
