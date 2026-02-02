@@ -266,7 +266,7 @@
             if (currentView === 'grid') {
                 container.className = 'grid md:grid-cols-2 gap-4';
                 container.innerHTML = pageDevelopers.map(dev => `
-                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition group cursor-pointer">
+                    <a href="/developer-profile.html?id=${dev.slug}" class="block bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition group cursor-pointer">
                         <div class="flex items-start gap-4">
                             <div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
                                 ${dev.name.charAt(0).toUpperCase()}
@@ -292,12 +292,12 @@
                             </div>
                             <span class="text-sm text-gray-500">${dev.projects}+ projects</span>
                         </div>
-                    </div>
+                    </a>
                 `).join('');
             } else {
                 container.className = 'flex flex-col gap-3';
                 container.innerHTML = pageDevelopers.map(dev => `
-                    <div class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition flex items-center gap-4 group cursor-pointer">
+                    <a href="/developer-profile.html?id=${dev.slug}" class="block bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition flex items-center gap-4 group cursor-pointer">
                         <div class="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
                             ${dev.name.charAt(0).toUpperCase()}
                         </div>
@@ -314,7 +314,7 @@
                             </div>
                             <span class="text-gray-500">${dev.projects}+ projects</span>
                         </div>
-                    </div>
+                    </a>
                 `).join('');
             }
 

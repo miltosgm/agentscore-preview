@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Profile - Reviews Realty</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#1e40af',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <span class="text-2xl font-bold text-primary">Reviews</span>
+                        <span class="text-2xl font-bold text-gray-800">Realty</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="developers.html" class="text-gray-600 hover:text-primary transition">Browse Agents</a>
+                    <a href="index.html#cities" class="text-gray-600 hover:text-primary transition">Cities</a>
+                    <button id="nav-auth-btn" onclick="showReviewForm()" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-secondary transition">
+                        Write Review
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <nav class="flex text-sm text-gray-500">
+                <a href="index.html" class="hover:text-primary">Home</a>
+                <span class="mx-2">→</span>
+                <a href="developers.html" class="hover:text-primary">Agents</a>
+                <span class="mx-2">→</span>
+                <span id="breadcrumb-city" class="hover:text-primary cursor-pointer">City</span>
+                <span class="mx-2">→</span>
+                <span id="breadcrumb-name" class="text-gray-800">Agency Name</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Main Column -->
+            <div class="flex-1">
+                <!-- Agency Header Card -->
+                <div class="bg-white rounded-xl shadow-sm p-6 lg:p-8">
+                    <div class="flex flex-col md:flex-row md:items-start gap-6">
+                        <!-- Logo -->
+                        <div id="agent-logo" class="w-20 h-20 bg-primary/10 rounded-xl flex items-center justify-center text-primary font-bold text-3xl flex-shrink-0">
+                            A
+                        </div>
+                        
+                        <!-- Info -->
+                        <div class="flex-1">
+                            <h1 id="agent-name" class="text-2xl lg:text-3xl font-bold text-gray-800">Loading...</h1>
+                            <p id="agent-location" class="text-gray-500 flex items-center gap-2 mt-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                <span>Location</span>
+                            </p>
+                            
+                            <!-- Rating -->
+                            <div class="flex items-center gap-4 mt-4">
+                                <div class="flex items-center gap-2">
+                                    <span id="agent-rating" class="text-4xl font-bold text-gray-800">0.0</span>
+                                    <div>
+                                        <div id="agent-stars" class="flex items-center"></div>
+                                        <p id="agent-review-count" class="text-sm text-gray-500">0 reviews</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tags -->
+                            <div id="agent-tags" class="flex flex-wrap gap-2 mt-4">
+                                <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm">🏠 Sales</span>
+                                <span class="bg-green-50 text-green-700 px-3 py-1 rounded-full text-sm">🔑 Rentals</span>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="flex flex-col gap-3 md:ml-auto">
+                            <a id="agent-website" href="#" target="_blank" class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-secondary transition text-center font-medium">
+                                Visit Website
+                            </a>
+                            <button onclick="showReviewForm()" class="border border-primary text-primary px-6 py-3 rounded-lg hover:bg-primary/5 transition font-medium">
+                                Write Review
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review Form Section (Hidden by default) -->
+                <div id="review-form-section" class="mt-8 hidden">
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">Write a Review</h2>
+                        
+                        <!-- Auth Required Notice -->
+                        <div id="auth-notice" class="hidden bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                            <p class="text-blue-800">Please sign in to submit a review.</p>
+                            <button onclick="openAuthModal()" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                Sign In / Sign Up
+                            </button>
+                        </div>
+                        
+                        <form id="review-form" class="space-y-4">
+                            <!-- Rating -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Your Rating</label>
+                                <div id="star-rating" class="flex gap-2">
+                                    <button type="button" onclick="setRating(1)" class="star-btn text-3xl text-gray-300 hover:text-yellow-400 transition">★</button>
+                                    <button type="button" onclick="setRating(2)" class="star-btn text-3xl text-gray-300 hover:text-yellow-400 transition">★</button>
+                                    <button type="button" onclick="setRating(3)" class="star-btn text-3xl text-gray-300 hover:text-yellow-400 transition">★</button>
+                                    <button type="button" onclick="setRating(4)" class="star-btn text-3xl text-gray-300 hover:text-yellow-400 transition">★</button>
+                                    <button type="button" onclick="setRating(5)" class="star-btn text-3xl text-gray-300 hover:text-yellow-400 transition">★</button>
+                                </div>
+                                <input type="hidden" id="rating-value" name="rating" value="0">
+                            </div>
+                            
+                            <!-- Title -->
+                            <div>
+                                <label for="review-title" class="block text-sm font-medium text-gray-700 mb-2">Review Title</label>
+                                <input 
+                                    type="text" 
+                                    id="review-title" 
+                                    name="title"
+                                    placeholder="Summarize your experience"
+                                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+                                    required
+                                >
+                            </div>
+                            
+                            <!-- Content -->
+                            <div>
+                                <label for="review-content" class="block text-sm font-medium text-gray-700 mb-2">Your Review</label>
+                                <textarea 
+                                    id="review-content" 
+                                    name="content"
+                                    rows="4"
+                                    placeholder="Share details about your experience with this agency..."
+                                    class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none"
+                                    required
+                                ></textarea>
+                            </div>
+                            
+                            <!-- Submit -->
+                            <div class="flex gap-3">
+                                <button 
+                                    type="submit" 
+                                    id="submit-review-btn"
+                                    class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-secondary transition font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    Submit Review
+                                </button>
+                                <button 
+                                    type="button" 
+                                    onclick="hideReviewForm()"
+                                    class="px-6 py-2 rounded-lg border hover:bg-gray-50 transition"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                            
+                            <!-- Feedback -->
+                            <div id="form-feedback" class="hidden"></div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Reviews Section -->
+                <div class="mt-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-gray-800">Reviews</h2>
+                        <select id="review-sort" class="px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/50">
+                            <option value="recent">Most Recent</option>
+                            <option value="highest">Highest Rated</option>
+                            <option value="lowest">Lowest Rated</option>
+                        </select>
+                    </div>
+
+                    <div id="reviews-list" class="space-y-4">
+                        <div class="bg-white rounded-xl p-6 shadow-sm">
+                            <p class="text-gray-500 text-center py-8">Loading reviews...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="lg:w-80 flex-shrink-0">
+                <!-- Contact Card -->
+                <div class="bg-white rounded-xl shadow-sm p-6 sticky top-24">
+                    <h3 class="font-semibold text-gray-800 mb-4">Contact Information</h3>
+                    
+                    <div class="space-y-4">
+                        <div id="contact-website" class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                            </svg>
+                            <div>
+                                <p class="text-sm text-gray-500">Website</p>
+                                <a id="sidebar-website" href="#" target="_blank" class="text-primary hover:underline break-all">Loading...</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                            <div>
+                                <p class="text-sm text-gray-500">Active Listings</p>
+                                <p id="sidebar-listings" class="text-gray-800 font-medium">0</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-gray-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            <div>
+                                <p class="text-sm text-gray-500">Location</p>
+                                <p id="sidebar-location" class="text-gray-800 font-medium">Cyprus</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rating Breakdown -->
+                    <div class="mt-6 pt-6 border-t">
+                        <h4 class="font-medium text-gray-800 mb-4">Rating Breakdown</h4>
+                        <div id="rating-breakdown" class="space-y-2">
+                            <!-- Rating bars will be loaded by JS -->
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-md w-full p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Sign In</h3>
+                <button onclick="closeAuthModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="auth-tabs" class="flex border-b mb-4">
+                <button onclick="showAuthTab('signin')" class="auth-tab flex-1 py-2 text-primary border-b-2 border-primary font-medium" data-tab="signin">Sign In</button>
+                <button onclick="showAuthTab('signup')" class="auth-tab flex-1 py-2 text-gray-500 hover:text-gray-700" data-tab="signup">Sign Up</button>
+            </div>
+            
+            <form id="auth-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" id="auth-email" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50">
+                </div>
+                <div id="password-field">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="auth-password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50">
+                </div>
+                <div id="auth-error" class="text-red-600 text-sm hidden"></div>
+                <button type="submit" class="w-full bg-primary text-white py-2 rounded-lg hover:bg-secondary transition font-medium">
+                    Sign In
+                </button>
+                <button type="button" onclick="signInWithMagicLink()" class="w-full border border-gray-300 py-2 rounded-lg hover:bg-gray-50 transition text-gray-700">
+                    Send Magic Link
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex items-center justify-center mb-4">
+                <span class="text-xl font-bold text-white">Reviews</span>
+                <span class="text-xl font-bold text-primary">Realty</span>
+            </div>
+            <p class="text-sm">© 2026 Reviews Realty. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/supabase-config.js"></script>
+    <script src="js/data.js?v=2"></script>
+    <script src="js/app.js?v=2"></script>
+    <script>
+        let currentAgent = null;
+        let agentReviews = [];
+        let selectedRating = 0;
+        let currentUser = null;
+        let authMode = 'signin';
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check auth state
+            if (window.Reviews Realty) {
+                currentUser = await window.Reviews Realty.auth.getUser();
+                updateAuthUI();
+                
+                window.Reviews Realty.auth.onAuthStateChange((event, session) => {
+                    currentUser = session?.user || null;
+                    updateAuthUI();
+                });
+            }
+
+            const params = new URLSearchParams(window.location.search);
+            const agentId = params.get('id');
+
+            if (!agentId) {
+                window.location.href = 'agents.html';
+                return;
+            }
+
+            // Try to load agent (supports both UUID and name)
+            currentAgent = await loadAgentById(agentId);
+            
+            if (!currentAgent) {
+                // Fallback: load all and search by name
+                const agents = await loadAgentData();
+                currentAgent = agents.find(a => a.name === agentId);
+            }
+
+            if (!currentAgent) {
+                window.location.href = 'agents.html';
+                return;
+            }
+
+            // Update page
+            document.title = `${currentAgent.name} - Reviews Realty`;
+            
+            // Update breadcrumb
+            document.getElementById('breadcrumb-name').textContent = currentAgent.name;
+            document.getElementById('breadcrumb-city').textContent = currentAgent.location;
+            document.getElementById('breadcrumb-city').onclick = () => {
+                window.location.href = `agents.html?city=${currentAgent.location}`;
+            };
+
+            // Update header
+            document.getElementById('agent-logo').textContent = currentAgent.name.charAt(0).toUpperCase();
+            document.getElementById('agent-name').textContent = currentAgent.name;
+            document.getElementById('agent-location').querySelector('span').textContent = currentAgent.location + ', Cyprus';
+            document.getElementById('agent-rating').textContent = currentAgent.rating.toFixed(1);
+            document.getElementById('agent-stars').innerHTML = renderStars(currentAgent.rating);
+            document.getElementById('agent-review-count').textContent = `Based on ${currentAgent.reviewCount} reviews`;
+
+            // Website
+            document.getElementById('agent-website').href = currentAgent.url;
+            document.getElementById('sidebar-website').href = currentAgent.url;
+            try {
+                document.getElementById('sidebar-website').textContent = new URL(currentAgent.url).hostname;
+            } catch {
+                document.getElementById('sidebar-website').textContent = currentAgent.url;
+            }
+
+            // Sidebar
+            document.getElementById('sidebar-listings').textContent = currentAgent.ads + ' active listings';
+            document.getElementById('sidebar-location').textContent = currentAgent.location + ', Cyprus';
+
+            // Load reviews from Supabase or generate mock
+            await loadReviews();
+            
+            // Sort handler
+            document.getElementById('review-sort').addEventListener('change', function() {
+                const sorted = [...agentReviews];
+                switch (this.value) {
+                    case 'recent':
+                        sorted.sort((a, b) => new Date(b.date || b.created_at) - new Date(a.date || a.created_at));
+                        break;
+                    case 'highest':
+                        sorted.sort((a, b) => b.rating - a.rating);
+                        break;
+                    case 'lowest':
+                        sorted.sort((a, b) => a.rating - b.rating);
+                        break;
+                }
+                renderReviews(sorted);
+            });
+
+            // Review form handler
+            document.getElementById('review-form').addEventListener('submit', handleReviewSubmit);
+            document.getElementById('auth-form').addEventListener('submit', handleAuthSubmit);
+        });
+
+        function updateAuthUI() {
+            const authBtn = document.getElementById('nav-auth-btn');
+            if (currentUser) {
+                authBtn.textContent = 'Write Review';
+            }
+        }
+
+        async function loadReviews() {
+            // Try Supabase first
+            if (window.Reviews Realty && currentAgent.id) {
+                try {
+                    const { data, error } = await window.Reviews Realty.db.getReviews(currentAgent.id);
+                    if (!error && data && data.length > 0) {
+                        agentReviews = data.map(r => ({
+                            id: r.id,
+                            reviewer: r.reviewer_name || 'Reviews Realty User',
+                            rating: r.rating,
+                            date: r.created_at,
+                            title: r.title,
+                            text: r.content,
+                            source: 'Reviews Realty'
+                        }));
+                        renderRatingBreakdown(agentReviews);
+                        renderReviews(agentReviews);
+                        return;
+                    }
+                } catch (err) {
+                    console.log('Error loading reviews from Supabase:', err);
+                }
+            }
+            
+            // Fallback to mock reviews
+            agentReviews = generateMockReviews(currentAgent);
+            renderRatingBreakdown(agentReviews);
+            renderReviews(agentReviews);
+        }
+
+        function generateMockReviews(agent) {
+            const reviewerNames = [
+                'Maria K.', 'Andreas P.', 'Elena S.', 'Yuri M.', 'Rosa B.',
+                'Michael T.', 'Sophie L.', 'Nikos A.', 'Anna C.', 'George D.'
+            ];
+            
+            const reviewTexts = [
+                "Excellent service! Very professional and helped us find the perfect property.",
+                "Great experience working with this agency. Highly recommended!",
+                "Professional team, quick responses, and transparent throughout the process.",
+                "Found our dream home thanks to their expertise. Very satisfied!",
+                "Good communication and attention to detail. Would use again."
+            ];
+
+            // Use sample review from Google if available
+            if (agent.sampleReview) {
+                reviewTexts.unshift(agent.sampleReview);
+            }
+
+            const count = Math.min(agent.reviewCount || 5, 8);
+            const reviews = [];
+            
+            for (let i = 0; i < count; i++) {
+                const rating = generateRatingForAverage(agent.rating);
+                const daysAgo = Math.floor(Math.random() * 365);
+                const date = new Date();
+                date.setDate(date.getDate() - daysAgo);
+                
+                reviews.push({
+                    id: i + 1,
+                    reviewer: reviewerNames[Math.floor(Math.random() * reviewerNames.length)],
+                    rating: rating,
+                    date: date.toISOString().split('T')[0],
+                    text: reviewTexts[Math.floor(Math.random() * reviewTexts.length)],
+                    source: agent.sampleReview && i === 0 ? 'Google' : 'User'
+                });
+            }
+
+            return reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
+        }
+
+        function generateRatingForAverage(targetAvg) {
+            const variance = Math.random() * 2 - 1;
+            let rating = targetAvg + variance;
+            return Math.max(1, Math.min(5, Math.round(rating)));
+        }
+
+        function renderRatingBreakdown(reviews) {
+            const container = document.getElementById('rating-breakdown');
+            const counts = [0, 0, 0, 0, 0];
+            
+            reviews.forEach(r => counts[r.rating - 1]++);
+            const total = reviews.length || 1;
+
+            let html = '';
+            for (let i = 5; i >= 1; i--) {
+                const count = counts[i - 1];
+                const percent = (count / total) * 100;
+                html += `
+                    <div class="flex items-center gap-2 text-sm">
+                        <span class="w-3">${i}</span>
+                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        <div class="flex-1 bg-gray-200 rounded-full h-2">
+                            <div class="bg-yellow-400 h-2 rounded-full" style="width: ${percent}%"></div>
+                        </div>
+                        <span class="w-8 text-gray-500 text-right">${count}</span>
+                    </div>
+                `;
+            }
+            container.innerHTML = html;
+        }
+
+        function renderReviews(reviews) {
+            const container = document.getElementById('reviews-list');
+            
+            if (reviews.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white rounded-xl p-8 shadow-sm text-center">
+                        <p class="text-gray-500 mb-4">No reviews yet. Be the first to review!</p>
+                        <button onclick="showReviewForm()" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-secondary transition">
+                            Write a Review
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = reviews.map(review => `
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 font-medium">
+                                ${review.reviewer.charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-800">${review.reviewer}</p>
+                                <p class="text-sm text-gray-500">${formatDate(review.date || review.created_at)}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            ${renderStars(review.rating)}
+                        </div>
+                    </div>
+                    ${review.title ? `<p class="font-medium text-gray-800 mb-2">${review.title}</p>` : ''}
+                    <p class="text-gray-600">${review.text || review.content}</p>
+                    <div class="mt-3 flex items-center gap-2">
+                        <span class="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded">
+                            via ${review.source}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return 'Recently';
+            const date = new Date(dateStr);
+            const now = new Date();
+            const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 0) return 'Today';
+            if (diffDays === 1) return 'Yesterday';
+            if (diffDays < 7) return `${diffDays} days ago`;
+            if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+            if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
+            return `${Math.floor(diffDays / 365)} years ago`;
+        }
+
+        // Review Form Functions
+        function showReviewForm() {
+            const section = document.getElementById('review-form-section');
+            section.classList.remove('hidden');
+            section.scrollIntoView({ behavior: 'smooth' });
+            
+            // Show auth notice if not logged in
+            const authNotice = document.getElementById('auth-notice');
+            const form = document.getElementById('review-form');
+            
+            if (!currentUser) {
+                authNotice.classList.remove('hidden');
+                form.querySelectorAll('input, textarea, button[type="submit"]').forEach(el => {
+                    el.disabled = true;
+                    el.classList.add('opacity-50');
+                });
+            } else {
+                authNotice.classList.add('hidden');
+                form.querySelectorAll('input, textarea, button[type="submit"]').forEach(el => {
+                    el.disabled = false;
+                    el.classList.remove('opacity-50');
+                });
+            }
+        }
+
+        function hideReviewForm() {
+            document.getElementById('review-form-section').classList.add('hidden');
+            resetReviewForm();
+        }
+
+        function resetReviewForm() {
+            document.getElementById('review-form').reset();
+            selectedRating = 0;
+            updateStarDisplay();
+            document.getElementById('form-feedback').classList.add('hidden');
+        }
+
+        function setRating(rating) {
+            selectedRating = rating;
+            document.getElementById('rating-value').value = rating;
+            updateStarDisplay();
+        }
+
+        function updateStarDisplay() {
+            const stars = document.querySelectorAll('#star-rating .star-btn');
+            stars.forEach((star, index) => {
+                if (index < selectedRating) {
+                    star.classList.remove('text-gray-300');
+                    star.classList.add('text-yellow-400');
+                } else {
+                    star.classList.remove('text-yellow-400');
+                    star.classList.add('text-gray-300');
+                }
+            });
+        }
+
+        async function handleReviewSubmit(e) {
+            e.preventDefault();
+            
+            if (!currentUser) {
+                openAuthModal();
+                return;
+            }
+            
+            if (selectedRating === 0) {
+                showFormFeedback('Please select a rating', 'error');
+                return;
+            }
+            
+            const title = document.getElementById('review-title').value.trim();
+            const content = document.getElementById('review-content').value.trim();
+            
+            if (!title || !content) {
+                showFormFeedback('Please fill in all fields', 'error');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submit-review-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            
+            try {
+                const { data, error } = await window.Reviews Realty.db.createReview({
+                    agentId: currentAgent.id,
+                    rating: selectedRating,
+                    title,
+                    content
+                });
+                
+                if (error) throw error;
+                
+                showFormFeedback('Review submitted successfully!', 'success');
+                
+                // Reload reviews
+                await loadReviews();
+                
+                // Reset and hide form after delay
+                setTimeout(() => {
+                    hideReviewForm();
+                }, 2000);
+                
+            } catch (err) {
+                showFormFeedback(err.message || 'Failed to submit review', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Review';
+            }
+        }
+
+        function showFormFeedback(message, type) {
+            const feedback = document.getElementById('form-feedback');
+            feedback.textContent = message;
+            feedback.className = `p-3 rounded-lg ${type === 'error' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`;
+            feedback.classList.remove('hidden');
+        }
+
+        // Auth Modal Functions
+        function openAuthModal() {
+            document.getElementById('auth-modal').classList.remove('hidden');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+            document.getElementById('auth-error').classList.add('hidden');
+        }
+
+        function showAuthTab(tab) {
+            authMode = tab;
+            document.querySelectorAll('.auth-tab').forEach(btn => {
+                if (btn.dataset.tab === tab) {
+                    btn.classList.add('text-primary', 'border-b-2', 'border-primary', 'font-medium');
+                    btn.classList.remove('text-gray-500');
+                } else {
+                    btn.classList.remove('text-primary', 'border-b-2', 'border-primary', 'font-medium');
+                    btn.classList.add('text-gray-500');
+                }
+            });
+            
+            // Update submit button text
+            document.querySelector('#auth-form button[type="submit"]').textContent = 
+                tab === 'signin' ? 'Sign In' : 'Sign Up';
+        }
+
+        async function handleAuthSubmit(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+            const errorEl = document.getElementById('auth-error');
+            
+            try {
+                let result;
+                if (authMode === 'signin') {
+                    result = await window.Reviews Realty.auth.signIn(email, password);
+                } else {
+                    result = await window.Reviews Realty.auth.signUp(email, password);
+                }
+                
+                if (result.error) throw result.error;
+                
+                closeAuthModal();
+                showReviewForm(); // Re-enable form
+                
+            } catch (err) {
+                errorEl.textContent = err.message || 'Authentication failed';
+                errorEl.classList.remove('hidden');
+            }
+        }
+
+        async function signInWithMagicLink() {
+            const email = document.getElementById('auth-email').value;
+            const errorEl = document.getElementById('auth-error');
+            
+            if (!email) {
+                errorEl.textContent = 'Please enter your email';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            try {
+                const { error } = await window.Reviews Realty.auth.signInWithMagicLink(email);
+                if (error) throw error;
+                
+                errorEl.textContent = 'Check your email for the login link!';
+                errorEl.className = 'text-green-600 text-sm';
+                errorEl.classList.remove('hidden');
+                
+            } catch (err) {
+                errorEl.textContent = err.message || 'Failed to send magic link';
+                errorEl.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
