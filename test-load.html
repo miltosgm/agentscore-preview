@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Load Test</title>
+</head>
+<body>
+    <h1>Testing Data Load</h1>
+    <div id="status">Loading...</div>
+    <div id="data"></div>
+    
+    <script>
+        async function test() {
+            const status = document.getElementById('status');
+            const dataDiv = document.getElementById('data');
+            
+            try {
+                status.textContent = 'Fetching JSON...';
+                const response = await fetch('./all-agents-with-reviews.json');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                status.textContent = `✅ SUCCESS! Loaded ${data.length} agents`;
+                dataDiv.textContent = JSON.stringify(data.slice(0, 2), null, 2);
+                
+            } catch (error) {
+                status.textContent = `❌ ERROR: ${error.message}`;
+                dataDiv.textContent = error.stack;
+            }
+        }
+        
+        test();
+    </script>
+</body>
+</html>
