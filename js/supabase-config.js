@@ -4,8 +4,9 @@ if (typeof window.ReviewsRealty !== 'undefined') {
     console.log('ReviewsRealty already initialized, skipping');
 } else {
 
-const SUPABASE_URL = 'https://sqjvwnuqbvnfvftvgzdz.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_LxH-UyL1WE8Y8BOthTQkaA_IOfpdMZ7';
+// Load from environment variables (set in .env.local or via build process)
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || window.SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || window.SUPABASE_ANON_KEY;
 
 // Initialize Supabase client
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);

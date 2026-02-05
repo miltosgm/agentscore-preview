@@ -1,10 +1,19 @@
 /**
  * Import agents from JSON to Supabase
  * Run this once to populate the database
+ * 
+ * Set environment variables before running:
+ * VITE_SUPABASE_URL=https://your-project.supabase.co
+ * VITE_SUPABASE_ANON_KEY=your_anon_key_here
  */
 
-const SUPABASE_URL = 'https://sqjvwnuqbvnfvftvgzdz.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_LxH-UyL1WE8Y8BOthTQkaA_IOfpdMZ7';
+const SUPABASE_URL = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    console.error('❌ Missing Supabase credentials. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY');
+    process.exit(1);
+}
 
 async function importAgents() {
     console.log('📥 Starting agent import...');

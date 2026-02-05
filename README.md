@@ -34,6 +34,21 @@ A simple MVP landing page for AgentScore - a Cyprus real estate agent review pla
   - Rating breakdown chart
   - Contact information sidebar
 
+## Setup
+
+1. Copy environment template:
+```bash
+cp .env.example .env.local
+```
+
+2. Add your Supabase credentials to `.env.local`:
+```
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your_anon_key_here
+```
+
+⚠️ **IMPORTANT:** `.env.local` is in `.gitignore` and won't be committed. Never commit real credentials.
+
 ## Running Locally
 
 ```bash
@@ -51,11 +66,9 @@ npx serve .
 
 ## Data Source
 
-The website loads agent data from `../collected-agents.json` which contains:
-- Agent name
-- Location (city)
-- Bazaraki URL
-- Number of active listings
+The website loads agent data from:
+- **Static JSON** (MVP mode): `../collected-agents.json`
+- **Supabase** (production): Uses credentials from `.env.local`
 
 Ratings and reviews are generated algorithmically for the MVP. In production, these would come from a database with real reviews.
 
